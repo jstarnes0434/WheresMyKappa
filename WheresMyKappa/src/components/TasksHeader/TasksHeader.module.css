@@ -1,0 +1,23 @@
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .headerTitle {
+    font-size: 1.8rem;
+    color: #fff;
+  }
+  
+  .switchContainer {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes the switchContainer to the right */
+  }
+  
+  .switchContainer span {
+ 
+    color: #fff;
+  }
+  

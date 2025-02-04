@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "../ProgressTracker/progresstracker.module.css";
-import { ProgressBar } from "primereact/progressbar";
 
 interface ProgressTrackerProps {
   totalTasks: number;
@@ -24,11 +23,6 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({
   return (
     <div className={styles.progressContainer}>
       <h3 className={styles.progressTitle}>Task Completion: {progress}%</h3>
-      <ProgressBar
-        value={progress}
-        showValue={true} // Show percentage value on the progress bar
-        className={styles.progressBar} // Custom CSS for progress bar style
-      />
       <h3 className={styles.progressTitle}>
         {Object.values(checkedTasks).filter(Boolean).length} / {totalTasks}
       </h3>

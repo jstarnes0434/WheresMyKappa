@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../services/tarkovTaskService"; // Import the service
-import { Card } from "primereact/card"; // PrimeReact Card component
-import styles from "./TaskList.module.css"; // Import the CSS module
-import { Task } from "../interfaces/task";
-import ProgressTracker from "../components/ProgressTracker/progresstracker";
+import React, { useState, useEffect } from 'react';
+import { fetchTasks } from '../services/tarkovTaskService'; // Import the service
+import { Card } from 'primereact/card'; // PrimeReact Card component
+import styles from './TaskList.module.css'; // Import the CSS module
+import { Task } from '../interfaces/task';
+import ProgressTracker from '../components/ProgressTracker/progresstracker';
+import TaskHeader from '../components/TasksHeader/TasksHeader';
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
-    () => {
-      const savedCheckedTasks = localStorage.getItem("checkedTasks");
-      return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
-    }
-  );
+  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(() => {
+    const savedCheckedTasks = localStorage.getItem('checkedTasks');
+    return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
+  });
+  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(false); // Toggle state
 
   useEffect(() => {
     const getTasks = async () => {
@@ -22,7 +22,7 @@ const TasksList: React.FC = () => {
         const fetchedTasks = await fetchTasks();
         setTasks(fetchedTasks);
       } catch (err) {
-        setError("Failed to fetch tasks");
+        setError('Failed to fetch tasks');
       } finally {
         setLoading(false);
       }
@@ -38,18 +38,10 @@ const TasksList: React.FC = () => {
         [taskId]: !prev[taskId],
       };
 
-      localStorage.setItem("checkedTasks", JSON.stringify(updatedCheckedTasks));
+      localStorage.setItem('checkedTasks', JSON.stringify(updatedCheckedTasks));
       return updatedCheckedTasks;
     });
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   const filteredTasks = tasks.filter((task) => task.kappaRequired);
 
@@ -62,21 +54,44 @@ const TasksList: React.FC = () => {
     return groups;
   }, {} as { [key: string]: Task[] });
 
+  // Show or hide checked tasks based on the switch
+  const tasksToDisplay = Object.keys(groupedTasks).reduce((result, traderName) => {
+    const traderTasks = groupedTasks[traderName].filter(
+      (task) => showCheckedTasks || !checkedTasks[task.id]
+    );
+    if (traderTasks.length > 0) {
+      result[traderName] = traderTasks;
+    }
+    return result;
+  }, {} as { [key: string]: Task[] });
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <>
       <div className={styles.pageContainer}>
+        {/* <TaskHeader
+          showCheckedTasks={showCheckedTasks}
+          onSwitchChange={setShowCheckedTasks} // Update the switch state
+        /> */}
         <ProgressTracker
           totalTasks={filteredTasks.length}
           checkedTasks={checkedTasks}
         />
         <div className={styles.tasksContainer}>
-          {Object.keys(groupedTasks).map((traderName) => (
+          {Object.keys(tasksToDisplay).map((traderName) => (
             <Card
               key={traderName}
               title={
                 <div className={styles.traderHeader}>
                   <img
-                    src={groupedTasks[traderName][0].trader.imageLink}
+                    src={tasksToDisplay[traderName][0].trader.imageLink}
                     alt={traderName}
                     className={styles.traderImage}
                   />
@@ -85,11 +100,11 @@ const TasksList: React.FC = () => {
               className={styles.traderCard}
             >
               <div>
-                {groupedTasks[traderName].map((task) => (
+                {tasksToDisplay[traderName].map((task) => (
                   <Card
                     key={task.id}
                     className={`${styles.taskCard} ${
-                      checkedTasks[task.id] ? styles.checkedTask : ""
+                      checkedTasks[task.id] ? styles.checkedTask : ''
                     }`}
                     onClick={() => onTaskClick(task.id)}
                   >
@@ -104,7 +119,7 @@ const TasksList: React.FC = () => {
                         </a>
                         <br />
                         <em>
-                          Kappa Required: {task.kappaRequired ? "Yes" : "No"}
+                          Kappa Required: {task.kappaRequired ? 'Yes' : 'No'}
                         </em>
                       </div>
                     </div>

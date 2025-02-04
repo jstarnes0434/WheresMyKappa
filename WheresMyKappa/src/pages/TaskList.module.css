@@ -22,7 +22,7 @@ html {
   justify-content: center;
   gap: 20px;
   padding: 2rem;
-  height: 85vh; /* Prevent overflow */
+  height: 100vh; /* Prevent overflow */
   overflow-y: auto; /* Vertical scroll enabled */
 }
 
