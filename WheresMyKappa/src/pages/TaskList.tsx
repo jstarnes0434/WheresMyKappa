@@ -13,7 +13,7 @@ const TasksList: React.FC = () => {
     const savedCheckedTasks = localStorage.getItem('checkedTasks');
     return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
   });
-  const [showCheckedTasks] = useState<boolean>(false); // Toggle state
+  const [showCheckedTasks] = useState<boolean>(true); // Toggle state
 
   useEffect(() => {
     const getTasks = async () => {
