@@ -4,7 +4,6 @@ import { Card } from 'primereact/card'; // PrimeReact Card component
 import styles from './TaskList.module.css'; // Import the CSS module
 import { Task } from '../interfaces/task';
 import ProgressTracker from '../components/ProgressTracker/progresstracker';
-import TaskHeader from '../components/TasksHeader/TasksHeader';
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -14,7 +13,7 @@ const TasksList: React.FC = () => {
     const savedCheckedTasks = localStorage.getItem('checkedTasks');
     return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
   });
-  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(false); // Toggle state
+  const [showCheckedTasks] = useState<boolean>(false); // Toggle state
 
   useEffect(() => {
     const getTasks = async () => {
@@ -118,9 +117,6 @@ const TasksList: React.FC = () => {
                           {task.name}
                         </a>
                         <br />
-                        <em>
-                          Kappa Required: {task.kappaRequired ? 'Yes' : 'No'}
-                        </em>
                       </div>
                     </div>
 
