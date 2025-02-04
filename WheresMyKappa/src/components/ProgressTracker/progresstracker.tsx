@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./ProgressTracker.module.css";
+import styles from "../ProgressTracker/progresstracker.module.css";
 import { ProgressBar } from "primereact/progressbar";
 
 interface ProgressTrackerProps {
