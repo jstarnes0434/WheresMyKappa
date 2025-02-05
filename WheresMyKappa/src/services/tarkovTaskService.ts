@@ -5,32 +5,36 @@ import { TaskData } from "../interfaces/task";
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
 
 const GET_TASKS_QUERY = `
-  query {
-    tasks {
-      id
-      name
-      taskRequirements {
-          task {name}
-      }
-      wikiLink
-      objectives {
+ query {
+  tasks {
+    wikiLink
+    minPlayerLevel
+    id
+    taskImageLink
+    taskRequirements {task {
+      id, name
+    }}
+    name
+    objectives {
       description
     }
-      kappaRequired
-      descriptionMessageId
-      trader {
-        name
-        imageLink
-      }
+    kappaRequired
+    map {
+      name
+    }
+    trader {
+      name
+      imageLink
     }
   }
+}
 `;
 
 // Function to fetch tasks from the API
 export const fetchTasks = async () => {
   try {
     const data: TaskData = await request(GRAPHQL_URL, GET_TASKS_QUERY);
-    console.log(data.tasks);
+
     return data.tasks; // return tasks data from the response
   } catch (error) {
     console.error("Error fetching tasks:", error);
