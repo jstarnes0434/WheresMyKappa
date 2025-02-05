@@ -37,8 +37,10 @@ const ItemsList: React.FC = () => {
         ...prev,
         [itemId]: !prev[itemId],
       };
-
+  
+      // Update localStorage after state has been updated
       localStorage.setItem("checkedItems", JSON.stringify(updatedCheckedItems));
+  
       return updatedCheckedItems;
     });
   };
@@ -57,7 +59,9 @@ const ItemsList: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <h2 className={styles.pageTitle}>Items Needed: {items.length}</h2>
+      <h2 className={styles.pageTitle}>
+  Items Found: {Object.values(checkedItems).filter(Boolean).length} / {items.length}
+</h2>
 
       <div className={styles.itemsContainer}>
         {items.map((item) => (

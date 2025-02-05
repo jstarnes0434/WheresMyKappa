@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { fetchItems, fetchTasks } from "../services/tarkovTaskService"; // Import the service
+import { fetchTasks } from "../services/tarkovTaskService"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import styles from "./TaskList.module.css"; // Import the CSS module
 import { Task } from "../interfaces/task";
 import ProgressTracker from "../components/ProgressTracker/progresstracker";
 import TaskHeader from "../components/TasksHeader/TasksHeader";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { Item } from "../interfaces/items";
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [items, setItems] = useState<Item[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,17 +25,14 @@ const TasksList: React.FC = () => {
       try {
         const fetchedTasks = await fetchTasks();
         setTasks(fetchedTasks);
-        const fetchedItems = await fetchItems();
-        setItems(fetchedItems);
       } catch (err) {
         setError("Failed to fetch tasks");
       } finally {
         setLoading(false);
       }
     };
-   
-      getTasks();
-   
+
+    getTasks();
   }, []);
 
   const onTaskClick = (taskId: string) => {
