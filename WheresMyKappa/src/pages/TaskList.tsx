@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../services/tarkovTaskService"; // Import the service
+import { fetchItems, fetchTasks } from "../services/tarkovTaskService"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import styles from "./TaskList.module.css"; // Import the CSS module
 import { Task } from "../interfaces/task";
 import ProgressTracker from "../components/ProgressTracker/progresstracker";
 import TaskHeader from "../components/TasksHeader/TasksHeader";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Item } from "../interfaces/items";
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
@@ -24,15 +27,17 @@ const TasksList: React.FC = () => {
       try {
         const fetchedTasks = await fetchTasks();
         setTasks(fetchedTasks);
+        const fetchedItems = await fetchItems();
+        setItems(fetchedItems);
       } catch (err) {
         setError("Failed to fetch tasks");
       } finally {
         setLoading(false);
       }
     };
-    setTimeout(() => {
+   
       getTasks();
-    }, 2000);
+   
   }, []);
 
   const onTaskClick = (taskId: string) => {
@@ -128,7 +133,7 @@ const TasksList: React.FC = () => {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            {task.name}
+                            {task.name} - Level {task.minPlayerLevel}
                           </a>
                         </div>
                         <div>
@@ -138,24 +143,30 @@ const TasksList: React.FC = () => {
                             className={styles.taskImage}
                           />
                         </div>
-                        <div>Requirements:</div>
-<ul>
-  {task.taskRequirements.map((requirement, index) =>
-    requirement.task ? (
-      <li key={index}>{requirement.task.name}</li>
-    ) : null
-  )}
-</ul>
-                        <div>Level {task.minPlayerLevel}</div>
+
+                        {task.taskRequirements && (
+                          <>
+                            <div className={styles.taskSubHeader}>
+                              Requirements:
+                            </div>
+                            <ul>
+                              {task.taskRequirements.map((requirement, index) =>
+                                requirement.task ? (
+                                  <li key={index}>{requirement.task.name}</li>
+                                ) : null
+                              )}
+                            </ul>
+                          </>
+                        )}
+
                         <div></div>
                       </div>
                     </div>
 
                     <div>
-                      {task.descriptionMessageId && (
-                        <span>Message ID: {task.descriptionMessageId}</span>
-                      )}
-                      <br />
+                      <div className={styles.taskSubHeader}>
+                        Task Objectives:
+                      </div>
                       {task.objectives?.map((objective, index) => (
                         <li key={index}>{objective.description}</li>
                       ))}

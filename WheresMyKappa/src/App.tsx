@@ -1,24 +1,61 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import background from "../src/assets/KappaBackground.jpeg";
 import TasksList from "./pages/TaskList";
-
+import ItemsList from "./pages/ItemList";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <Router>
       <div
-       style={{
-        backgroundImage: `url(${background})`,
-        backgroundSize: '100% 100%', // Stretch image to fit full screen
-        backgroundPosition: 'center', // Center the image
-        height: '100vh', // Make sure the container takes up full viewport height
-        width: '100%', // Ensure it takes up the full width
-      }}
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "100% 100%",
+          backgroundPosition: "center",
+          height: "100vh",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
-        <TasksList /> {/* Render the TaskList component */}
+        {/* Navigation Bar */}
+        <nav
+          style={{
+          
+            padding: "10px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Link to="/" style={navLinkStyle}>
+            Tasks
+          </Link>
+          <Link to="/items" style={navLinkStyle}>
+            Items
+          </Link>
+        </nav>
+
+        {/* Page Content */}
+        <div style={{ flex: 1, padding: "20px" }}>
+          <Routes>
+            <Route path="/" element={<TasksList />} />
+            <Route path="/items" element={<ItemsList />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
+};
+
+// Navigation Link Styles
+const navLinkStyle: React.CSSProperties = {
+  color: "white",
+  textDecoration: "none",
+  fontSize: "18px",
+  margin: "0 20px",
+  padding: "10px 15px",
+  borderRadius: "5px",
+  background: "rgba(255, 255, 255, 0.2)",
 };
 
 export default App;
