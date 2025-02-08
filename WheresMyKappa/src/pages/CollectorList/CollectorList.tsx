@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { fetchItems } from "../services/tarkovTaskService";
 import { Card } from "primereact/card";
-import styles from "./ItemList.module.css";
+import styles from "./CollectorList.module.css";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { Item } from "../interfaces/items";
+import { Item } from "../../interfaces/items";
+import { fetchItems } from "../../services/tarkovTaskService";
 
-const ItemsList: React.FC = () => {
+const CollectorList: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,10 +37,10 @@ const ItemsList: React.FC = () => {
         ...prev,
         [itemId]: !prev[itemId],
       };
-  
+
       // Update localStorage after state has been updated
       localStorage.setItem("checkedItems", JSON.stringify(updatedCheckedItems));
-  
+
       return updatedCheckedItems;
     });
   };
@@ -60,8 +60,9 @@ const ItemsList: React.FC = () => {
   return (
     <div className={styles.pageContainer}>
       <h2 className={styles.pageTitle}>
-  Items Found: {Object.values(checkedItems).filter(Boolean).length} / {items.length}
-</h2>
+        Items Found: {Object.values(checkedItems).filter(Boolean).length} /{" "}
+        {items.length}
+      </h2>
 
       <div className={styles.itemsContainer}>
         {items.map((item) => (
@@ -73,7 +74,11 @@ const ItemsList: React.FC = () => {
             onClick={() => onItemClick(item.id)}
           >
             <div>
-              <img src={item.image512pxLink} alt={item.image512pxLink} className={styles.imagePicture} />
+              <img
+                src={item.image512pxLink}
+                alt={item.image512pxLink}
+                className={styles.imagePicture}
+              />
             </div>
             <div className={styles.itemCardHeader}>{item.name}</div>
             <div className={styles.itemDescription}>{item.description}</div>
@@ -84,4 +89,4 @@ const ItemsList: React.FC = () => {
   );
 };
 
-export default ItemsList;
+export default CollectorList;

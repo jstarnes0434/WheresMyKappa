@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../services/tarkovTaskService"; // Import the service
+import { fetchTasks } from "../../services/tarkovTaskService"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import styles from "./TaskList.module.css"; // Import the CSS module
-import { Task } from "../interfaces/task";
-import ProgressTracker from "../components/ProgressTracker/progresstracker";
-import TaskHeader from "../components/TasksHeader/TasksHeader";
+import { Task } from "../../interfaces/task";
+import ProgressTracker from "../../components/ProgressTracker/progresstracker";
+import TaskHeader from "../../components/TasksHeader/TasksHeader";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 const TasksList: React.FC = () => {

@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import TasksList from "./pages/TaskList";
-import ItemsList from "./pages/ItemList";
+import TasksList from "./pages/TaskList/TaskList";
 import CultistCalculator from "./pages/CultistCalculator/CultistCalculator";
 import GraphicHeader from "./components/graphicHeader/GraphicHeader";
+import CollectorList from "./pages/CollectorList/CollectorList";
 
 const App: React.FC = () => {
   return (
@@ -34,7 +34,7 @@ const App: React.FC = () => {
           <div style={{ flex: 1, padding: "20px" }}>
             <Routes>
               <Route path="/" element={<TasksList />} />
-              <Route path="/collector" element={<ItemsList />} />
+              <Route path="/collector" element={<CollectorList />} />
               <Route
                 path="/cultistcalculator"
                 element={<CultistCalculator />}
