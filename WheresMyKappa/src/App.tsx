@@ -1,49 +1,49 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import background from "../src/assets/KappaBackground.jpeg";
 import TasksList from "./pages/TaskList";
 import ItemsList from "./pages/ItemList";
+import CultistCalculator from "./pages/CultistCalculator/CultistCalculator";
+import GraphicHeader from "./components/graphicHeader/GraphicHeader";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div
-        style={{
-          backgroundImage: `url(${background})`,
-          backgroundSize: "100% 100%",
-          backgroundPosition: "center",
-          height: "100vh",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {/* Navigation Bar */}
-        <nav
-          style={{
-          
-            padding: "10px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Link to="/" style={navLinkStyle}>
-            Tasks
-          </Link>
-          <Link to="/items" style={navLinkStyle}>
-            Items
-          </Link>
-        </nav>
+    <>
+      <GraphicHeader />
+      <Router>
+        <div>
+          {/* Navigation Bar */}
+          <nav
+            style={{
+              padding: "10px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Link to="/" style={navLinkStyle}>
+              Tasks
+            </Link>
+            <Link to="/collector" style={navLinkStyle}>
+              Collector
+            </Link>
+            <Link to="/cultistcalculator" style={navLinkStyle}>
+              Cultist Calculator
+            </Link>
+          </nav>
 
-        {/* Page Content */}
-        <div style={{ flex: 1, padding: "20px" }}>
-          <Routes>
-            <Route path="/" element={<TasksList />} />
-            <Route path="/items" element={<ItemsList />} />
-          </Routes>
+          {/* Page Content */}
+          <div style={{ flex: 1, padding: "20px" }}>
+            <Routes>
+              <Route path="/" element={<TasksList />} />
+              <Route path="/collector" element={<ItemsList />} />
+              <Route
+                path="/cultistcalculator"
+                element={<CultistCalculator />}
+              />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </>
   );
 };
 

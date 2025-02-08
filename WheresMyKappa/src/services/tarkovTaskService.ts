@@ -37,6 +37,8 @@ const GET_ITEMS_QUERY = `
     id
     name
     wikiLink
+    basePrice
+    avg24hPrice
     image512pxLink
     shortName
     description
@@ -79,7 +81,7 @@ export const fetchItems = async () => {
       "LVNDMARK's rat poison",
       "Missam forklift key",
       "Video cassette with the Cyborg Killer movie",
-      "Video cassette with the movie Cyborg Killer from \"Prokhodimec\"",
+      'Video cassette with the movie Cyborg Killer from "Prokhodimec"',
       "BakeEzy cook book",
       "JohnB Liquid DNB glasses",
       "Baddie's red beard",
@@ -103,6 +105,16 @@ export const fetchItems = async () => {
     console.log(filteredItems);
 
     return filteredItems; // return tasks data from the response
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    throw error; // Rethrow the error to be handled by the calling component
+  }
+};
+
+export const fetchAllItems = async () => {
+  try {
+    const data: ItemData = await request(GRAPHQL_URL, GET_ITEMS_QUERY); 
+    return data.items; // return tasks data from the response
   } catch (error) {
     console.error("Error fetching tasks:", error);
     throw error; // Rethrow the error to be handled by the calling component

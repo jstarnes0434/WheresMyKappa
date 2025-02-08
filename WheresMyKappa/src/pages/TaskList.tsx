@@ -134,7 +134,6 @@ const TasksList: React.FC = () => {
                         <div>
                           <img
                             src={task.taskImageLink}
-                            alt={task.name}
                             className={styles.taskImage}
                           />
                         </div>

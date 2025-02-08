@@ -12,7 +12,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
   onSwitchChange,
 }) => {
   return (
-    <>
+    <>     
       <div className={styles.headerContainer}>
         <div className={styles.switchContainer}>
           Show Checked Tasks

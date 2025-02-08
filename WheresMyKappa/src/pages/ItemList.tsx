@@ -73,7 +73,7 @@ const ItemsList: React.FC = () => {
             onClick={() => onItemClick(item.id)}
           >
             <div>
-              <img src={item.image512pxLink} className={styles.imagePicture} />
+              <img src={item.image512pxLink} alt={item.image512pxLink} className={styles.imagePicture} />
             </div>
             <div className={styles.itemCardHeader}>{item.name}</div>
             <div className={styles.itemDescription}>{item.description}</div>
