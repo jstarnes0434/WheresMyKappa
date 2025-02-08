@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./TasksHeader.module.css"; // You can create a CSS module to style this component
+import styles from "./TasksHeader.module.css";
 import { InputSwitch } from "primereact/inputswitch";
 
 interface TaskHeaderProps {
@@ -12,19 +12,18 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
   onSwitchChange,
 }) => {
   return (
-    <>     
-      <div className={styles.headerContainer}>
-        <div className={styles.switchContainer}>
+    <div className={styles.headerContainer}>
+      <div className={styles.switchContainer}>
+        <label htmlFor="checkedTasksSwitch" className={styles.switchLabel}>
           Show Checked Tasks
-          <div className="p-inputswitch">
-            <InputSwitch
-              checked={showCheckedTasks}
-              onChange={(e) => onSwitchChange(e.value)}
-            />
-          </div>
-        </div>
+        </label>
+        <InputSwitch
+          id="checkedTasksSwitch"
+          checked={showCheckedTasks}
+          onChange={(e) => onSwitchChange(e.value)}
+        />
       </div>
-    </>
+    </div>
   );
 };
 

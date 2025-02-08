@@ -87,13 +87,13 @@ const TasksList: React.FC = () => {
   return (
     <>
       <div className={styles.pageContainer}>
-        <TaskHeader
-          showCheckedTasks={showCheckedTasks}
-          onSwitchChange={setShowCheckedTasks} // Update the switch state
-        />
         <ProgressTracker
           totalTasks={filteredTasks.length}
           checkedTasks={checkedTasks}
+        />
+        <TaskHeader
+          showCheckedTasks={showCheckedTasks}
+          onSwitchChange={setShowCheckedTasks} // Update the switch state
         />
         <div className={styles.tasksContainer}>
           {Object.keys(tasksToDisplay).map((traderName) => (

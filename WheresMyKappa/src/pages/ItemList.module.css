@@ -35,7 +35,6 @@
   padding: 2rem;
   width: 100%;
   height: calc(100vh - 150px); /* Subtract header and padding */
-  overflow-y: auto; /* Enables vertical scrolling */
 }
 
 /* Individual Item Card */

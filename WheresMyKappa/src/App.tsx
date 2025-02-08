@@ -53,9 +53,9 @@ const navLinkStyle: React.CSSProperties = {
   textDecoration: "none",
   fontSize: "18px",
   margin: "0 20px",
-  padding: "10px 15px",
+
   borderRadius: "5px",
-  background: "rgba(255, 255, 255, 0.2)",
+ 
 };
 
 export default App;

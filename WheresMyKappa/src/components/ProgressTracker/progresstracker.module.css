@@ -1,12 +1,9 @@
 .progressContainer {
   padding: 2rem;
   gap: 10rem;
-  background-color: rgb(26, 26, 26);
-  border-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin-bottom: 20px;
 }
 
 .progressTitle {

@@ -24,7 +24,7 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({
     <div className={styles.progressContainer}>
       <h3 className={styles.progressTitle}>Task Completion: {progress}%</h3>
       <h3 className={styles.progressTitle}>
-        {Object.values(checkedTasks).filter(Boolean).length} / {totalTasks}
+        {Object.values(checkedTasks).filter(Boolean).length} / {totalTasks} Tasks Completed
       </h3>
     </div>
   );
