@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../../services/tarkovTaskService"; // Import the service
+import { fetchTasks } from "../../services/Services"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
+import { Dropdown } from "primereact/dropdown"; // PrimeReact Dropdown component
+import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./TaskList.module.css"; // Import the CSS module
 import { Task } from "../../interfaces/task";
 import ProgressTracker from "../../components/ProgressTracker/progresstracker";
-import TaskHeader from "../../components/TasksHeader/TasksHeader";
-import { ProgressSpinner } from "primereact/progressspinner";
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
@@ -19,6 +18,7 @@ const TasksList: React.FC = () => {
     }
   );
   const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(true); // Toggle state
+  const [selectedMap, setSelectedMap] = useState<string | null>(null); // Selected map for filtering
 
   useEffect(() => {
     const getTasks = async () => {
@@ -37,17 +37,24 @@ const TasksList: React.FC = () => {
 
   const onTaskClick = (taskId: string) => {
     setCheckedTasks((prev) => {
-      const updatedCheckedTasks = {
-        ...prev,
-        [taskId]: !prev[taskId],
-      };
-
+      const updatedCheckedTasks = { ...prev, [taskId]: !prev[taskId] };
       localStorage.setItem("checkedTasks", JSON.stringify(updatedCheckedTasks));
       return updatedCheckedTasks;
     });
   };
 
-  const filteredTasks = tasks?.filter((task) => task.kappaRequired);
+  // Extract unique task map names for dropdown, accounting for null maps
+  const uniqueMaps = Array.from(
+    new Set(tasks.map((task) => task.map?.name).filter((mapName) => mapName))
+  );
+
+  // Filter tasks based on the selected map
+  const filteredTasks = tasks.filter((task) => {
+    return (
+      task.kappaRequired &&
+      (selectedMap ? task.map?.name === selectedMap : true) // Check for null map
+    );
+  });
 
   const groupedTasks = filteredTasks.reduce((groups, task) => {
     const traderName = task.trader.name;
@@ -91,10 +98,19 @@ const TasksList: React.FC = () => {
           totalTasks={filteredTasks.length}
           checkedTasks={checkedTasks}
         />
-        <TaskHeader
-          showCheckedTasks={showCheckedTasks}
-          onSwitchChange={setShowCheckedTasks} // Update the switch state
-        />
+
+        {/* Dropdown to filter tasks by task map */}
+        <div className={styles.filterRow}>
+          <Dropdown
+            value={selectedMap}
+            options={uniqueMaps.map((map) => ({ label: map, value: map }))}
+            onChange={(e) => setSelectedMap(e.value)}
+            placeholder="Select a Map"
+            showClear
+            className={styles.dropdown}
+          />
+        </div>
+
         <div className={styles.tasksContainer}>
           {Object.keys(tasksToDisplay).map((traderName) => (
             <Card
@@ -131,6 +147,8 @@ const TasksList: React.FC = () => {
                             {task.name} - Level {task.minPlayerLevel}
                           </a>
                         </div>
+                        {/* Display the task map name, checking if map is null */}
+                        <div>Map: {task.map?.name || "No map available"}</div>
                         <div>
                           <img
                             src={task.taskImageLink}
@@ -152,8 +170,6 @@ const TasksList: React.FC = () => {
                             </ul>
                           </>
                         )}
-
-                        <div></div>
                       </div>
                     </div>
 

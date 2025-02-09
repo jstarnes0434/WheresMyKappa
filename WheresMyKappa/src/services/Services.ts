@@ -17,7 +17,8 @@ const GET_TASKS_QUERY = `
     }}
     name
     objectives {
-      description
+      description 
+      maps { name }
     }
     kappaRequired
     map {
@@ -113,7 +114,7 @@ export const fetchItems = async () => {
 
 export const fetchAllItems = async () => {
   try {
-    const data: ItemData = await request(GRAPHQL_URL, GET_ITEMS_QUERY); 
+    const data: ItemData = await request(GRAPHQL_URL, GET_ITEMS_QUERY);
     return data.items; // return tasks data from the response
   } catch (error) {
     console.error("Error fetching tasks:", error);

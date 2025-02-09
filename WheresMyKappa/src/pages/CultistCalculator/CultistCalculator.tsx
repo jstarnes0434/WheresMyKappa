@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AutoComplete } from "primereact/autocomplete";
 import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./CultistCalculator.module.css";
-import { fetchAllItems } from "../../services/tarkovTaskService";
+import { fetchAllItems } from "../../services/Services";
 import { Item } from "../../interfaces/items";
 
 const CultistCalculator: React.FC = () => {

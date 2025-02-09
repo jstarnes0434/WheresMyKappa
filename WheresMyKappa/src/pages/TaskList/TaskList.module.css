@@ -1,9 +1,10 @@
 /* General Styling */
 body,
 html {
-  font-family: "Inter", sans-serif; /* Modern, readable font */
-  background-color: #1e1e1e; /* Dark theme background */
+  font-family: "Inter", sans-serif;
+  background-color: #1e1e1e;
   color: #ffffff;
+  font-size: 100%;
 }
 
 /* Page Layout */
@@ -16,35 +17,98 @@ html {
 
 .tasksContainer {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping */
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 40px;
+  width: 100%;
+}
+
+/* Ensure filterRow matches tasksContainer */
+/* Container for the dropdown */
+/* Using :global for global styles within CSS modules */
+:global .p-dropdown {
+  width: 250px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  background-color: lightgrey !important;
+  transition: all 0.3s ease;
+}
+
+:global .p-dropdown .p-dropdown-icon {
+  color: red !important; /* Green arrow */
+}
+
+:global .p-dropdown .p-dropdown-label {
+  color: #333 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  background-color: lightgrey !important;
+  transition: all 0.3s ease;
+}
+
+:global .p-dropdown:hover,
+:global .p-dropdown:focus-within {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border-color: #4caf50 !important;
+}
+
+:global .p-dropdown:focus-within .p-dropdown-label {
+  background-color: lightgrey !important;
+}
+
+:global .p-dropdown-panel {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  background-color: lightgrey !important;
+}
+
+:global .p-dropdown-item {
+  font-size: 14px !important;
+  padding: 10px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+:global .p-dropdown-item:hover {
+  background-color: lightgrey !important;
+}
+
+:global .p-dropdown-clear {
+  color: #4caf50 !important;
+  font-size: 16px !important;
+}
+
+/* Trader & Task Cards */
+.traderCard,
+.taskCard {
+  min-width: 250px;
+  max-width: 350px;
+  padding: 0.7rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .traderCard {
-  min-width: 320px;
-  max-width: 400px;
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-  background-color: #2b2b2b; /* Dark theme */
-  padding: 1rem;
+  background-color: #2b2b2b;
+}
+
+.taskCard {
+  background-color: #343434;
+  transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+  cursor: pointer;
+  margin: 0.7rem 0;
 }
 
 .taskCard:hover {
-  transform: scale(1.22);
-}
-
-.loadingScreen {
-  text-align: center;
-  height: 100vh;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
+  transform: scale(1.1);
+  background-color: #444;
 }
 
 /* Trader Header */
 .traderHeader {
+  min-width: 250px;
+  max-width: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +118,6 @@ html {
   border-radius: 10px 10px 0 0;
 }
 
-/* Trader Image */
 .traderImage {
   width: 60px;
   height: 60px;
@@ -62,60 +125,49 @@ html {
   margin-right: 10px;
 }
 
+/* Task Header */
+.taskHeader {
+  min-width: 250px;
+  max-width: 350px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Task Content */
 .taskSubHeader {
- font-size: 20px;
- padding-bottom: 5px;
+  font-size: 18px;
+  padding-bottom: 5px;
 }
 
 .taskImage {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 0;
   width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-items: center;
-}
-
-/* Task Card */
-.taskCard {
+  height: auto;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  background-color: #343434;
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  transition: transform 0.2s ease-in-out;
-  margin-top: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-.taskCard:hover {
-  background-color: #444;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Task Objectives List */
 .taskCard ul {
-  padding-left: 1rem; /* Reduced indentation for a cleaner look */
-  list-style: none; /* Remove default bullets */
+  padding-left: 1.5rem;
+  list-style-type: disc;
   margin: 0;
 }
 
 .taskCard li {
   display: flex;
   align-items: center;
-  margin-bottom: 8px; /* Space between items */
-  padding: 2px; /* Padding for better readability */
+  margin-bottom: 8px;
+  padding: 2px;
 }
 
-/* Custom Bullet Point */
+/* Custom Bullet Points */
 .taskCard li::before {
-  content: "•"; /* Unicode bullet */
-  color: #90caf9; /* Light blue bullet color */
+  content: "•";
+  color: #90caf9;
   font-size: 1.2rem;
   margin-right: 10px;
 }
@@ -136,24 +188,13 @@ html {
 
 /* Task Links */
 .taskCard a {
-  color: #90caf9; /* Light blue */
+  color: #90caf9;
   text-decoration: none;
   font-weight: bold;
 }
 
 .taskCard a:hover {
   text-decoration: underline;
-}
-
-/* Task Objectives List */
-.taskCard ul {
-  padding-left: 1.5rem; /* Proper indentation */
-  list-style-type: disc; /* Bullet points */
-  margin: 0;
-}
-
-.taskCard li {
-  margin-bottom: 5px;
 }
 
 /* Progress Tracker */
@@ -174,4 +215,25 @@ html {
 .progressBar .p-progress-bar-value {
   background-color: #4caf50;
   border-radius: 8px;
+}
+
+/* Loading Screen */
+.loadingScreen {
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 90%;
+  }
+
+  .taskCard:hover {
+    transform: none; /* Prevents hover scaling on touch devices */
+  }
 }
