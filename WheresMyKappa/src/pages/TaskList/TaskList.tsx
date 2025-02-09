@@ -3,9 +3,11 @@ import { fetchTasks } from "../../services/Services"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import { Dropdown } from "primereact/dropdown"; // PrimeReact Dropdown component
 import { ProgressSpinner } from "primereact/progressspinner";
+import { ToggleButton } from "primereact/togglebutton"; // PrimeReact ToggleButton component
 import styles from "./TaskList.module.css"; // Import the CSS module
 import { Task } from "../../interfaces/task";
 import ProgressTracker from "../../components/ProgressTracker/progresstracker";
+import { Button } from "primereact/button";
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -17,7 +19,7 @@ const TasksList: React.FC = () => {
       return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
     }
   );
-  const [showCheckedTasks] = useState<boolean>(true); // Toggle state
+  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(true); // Toggle state for checked tasks
   const [selectedMap, setSelectedMap] = useState<string | null>(null); // Selected map for filtering
 
   useEffect(() => {
@@ -54,6 +56,10 @@ const TasksList: React.FC = () => {
       task.kappaRequired &&
       (selectedMap ? task.map?.name === selectedMap : true) // Check for null map
     );
+  });
+
+  const countFilteredTasks = tasks.filter((task) => {
+    return task.kappaRequired;
   });
 
   const groupedTasks = filteredTasks.reduce((groups, task) => {
@@ -95,20 +101,29 @@ const TasksList: React.FC = () => {
     <>
       <div className={styles.pageContainer}>
         <ProgressTracker
-          totalTasks={filteredTasks.length}
+          totalTasks={countFilteredTasks.length}
           checkedTasks={checkedTasks}
         />
 
         {/* Dropdown to filter tasks by task map */}
         <div className={styles.filterRow}>
-          <Dropdown
-            value={selectedMap}
-            options={uniqueMaps.map((map) => ({ label: map, value: map }))}
-            onChange={(e) => setSelectedMap(e.value)}
-            placeholder="Select a Map"
-            showClear
-            className={styles.dropdown}
-          />
+          <div>
+            <Dropdown
+              value={selectedMap}
+              options={uniqueMaps.map((map) => ({ label: map, value: map }))} // Filtered map options
+              onChange={(e) => setSelectedMap(e.value)}
+              placeholder="Select a Map"
+              showClear
+            />
+          </div>
+          <div className={styles.toggleContainer}>
+            <ToggleButton
+              checked={!showCheckedTasks}
+              onChange={() => setShowCheckedTasks((prev) => !prev)}
+              onLabel="Show Completed Quests"
+              offLabel="Hide Completed Quests"
+            />
+          </div>
         </div>
 
         <div className={styles.tasksContainer}>
@@ -148,7 +163,7 @@ const TasksList: React.FC = () => {
                           </a>
                         </div>
                         {/* Display the task map name, checking if map is null */}
-                        <div>Map: {task.map?.name || "No map available"}</div>
+                        {task.map?.name && <div>{task.map?.name}</div>}
                         <div>
                           <img
                             src={task.taskImageLink}

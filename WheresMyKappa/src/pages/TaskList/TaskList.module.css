@@ -7,6 +7,14 @@ html {
   font-size: 100%;
 }
 
+:global .p-dropdown {
+  width: 250px !important;
+}
+
+:global .p-card .p-card-content {
+  padding: 0 !important;
+}
+
 /* Page Layout */
 .pageContainer {
   display: flex;
@@ -23,60 +31,10 @@ html {
   width: 100%;
 }
 
-/* Ensure filterRow matches tasksContainer */
-/* Container for the dropdown */
-/* Using :global for global styles within CSS modules */
-:global .p-dropdown {
-  width: 250px !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-  background-color: lightgrey !important;
-  transition: all 0.3s ease;
-}
-
-:global .p-dropdown .p-dropdown-icon {
-  color: red !important; /* Green arrow */
-}
-
-:global .p-dropdown .p-dropdown-label {
-  color: #333 !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  padding: 10px !important;
-  border-radius: 8px !important;
-  background-color: lightgrey !important;
-  transition: all 0.3s ease;
-}
-
-:global .p-dropdown:hover,
-:global .p-dropdown:focus-within {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  border-color: #4caf50 !important;
-}
-
-:global .p-dropdown:focus-within .p-dropdown-label {
-  background-color: lightgrey !important;
-}
-
-:global .p-dropdown-panel {
-  border-radius: 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-  background-color: lightgrey !important;
-}
-
-:global .p-dropdown-item {
-  font-size: 14px !important;
-  padding: 10px !important;
-  transition: background-color 0.2s ease !important;
-}
-
-:global .p-dropdown-item:hover {
-  background-color: lightgrey !important;
-}
-
-:global .p-dropdown-clear {
-  color: #4caf50 !important;
-  font-size: 16px !important;
+.filterRow {
+  display: flex;
+  gap: 5rem;
+  margin-bottom: 20px;
 }
 
 /* Trader & Task Cards */
