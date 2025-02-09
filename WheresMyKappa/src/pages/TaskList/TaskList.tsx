@@ -17,7 +17,7 @@ const TasksList: React.FC = () => {
       return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
     }
   );
-  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(true); // Toggle state
+  const [showCheckedTasks] = useState<boolean>(true); // Toggle state
   const [selectedMap, setSelectedMap] = useState<string | null>(null); // Selected map for filtering
 
   useEffect(() => {
