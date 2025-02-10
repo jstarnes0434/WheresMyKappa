@@ -5,7 +5,6 @@
   background: #2b2b2b;
   color: #ffffff;
   padding: 2rem;
-  border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   max-width: 600px;
   margin: auto;
@@ -31,7 +30,6 @@
   align-items: center;
   background: #3a3a3a;
   padding: 1rem;
-  border-radius: 10px;
   transition: 0.3s ease-in-out;
   margin-bottom: 1rem;
 }
@@ -49,7 +47,6 @@
 .inputField {
   max-width: 400px;
   padding: 0.8rem;
-  border-radius: 6px;
   border: none;
   font-size: 1rem;
   background: #33334d;
@@ -67,7 +64,6 @@
 }
 
 .panelClass {
-  border-radius: 0px 0px 20px 20px;
   padding: 20px;
   font-size: 1rem;
   background: #2b2b2b;
@@ -137,7 +133,6 @@ input {
   font-weight: bold;
   background: #3a6a4f;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
   text-align: center;
 }

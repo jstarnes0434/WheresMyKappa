@@ -20,10 +20,8 @@
   margin-top: 10px;
   background-color: #eeeeee;
   height: 20px;
-  border-radius: 8px;
 }
 
 .progressBar .p-progress-bar-value {
   background-color: #4caf50; /* Green color for progress */
-  border-radius: 8px;
 }

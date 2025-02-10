@@ -4,6 +4,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./CultistCalculator.module.css";
 import { Item } from "../../interfaces/items";
 import { fetchAllItems } from "../../services/Services";
+import { Button } from "primereact/button";
 
 const CultistCalculator: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -15,6 +16,7 @@ const CultistCalculator: React.FC = () => {
   const [filteredItems, setFilteredItems] = useState<Item[][]>(
     Array(5).fill([])
   );
+  const [randomItems, setRandomItems] = useState<Item[]>([]);
 
   useEffect(() => {
     const getItems = async () => {
@@ -51,6 +53,19 @@ const CultistCalculator: React.FC = () => {
     (sum, item) => sum + (item?.basePrice || 0),
     0
   );
+
+  const getRandomItems = () => {
+    const eligibleItems = items.filter((item): item is Item => item !== null && item.basePrice > 60000 && item.basePrice < 70000);
+    console.log(eligibleItems);
+    if (eligibleItems.length >= 5) {
+      console.log(eligibleItems);
+      const shuffled = [...eligibleItems].sort(() => 0.5 - Math.random());
+      setRandomItems(shuffled.slice(0, 5));
+    } else {
+      console.log("wtf2");
+      setRandomItems([]);
+    }
+  };
 
   if (loading) {
     return (
@@ -129,6 +144,23 @@ const CultistCalculator: React.FC = () => {
           <p className={styles.remainingAmount}>
             ₽ {formatMoney(400000 - totalBasePrice)} left to reach ₽ 400,000
           </p>
+        )}
+
+        <Button className={styles.randomButton} onClick={getRandomItems}>
+          Show 5 Random Items
+        </Button>
+
+        {randomItems.length > 0 && (
+          <div className={styles.randomItemsList}>
+            <h3>Random Selected Items</h3>
+            <ul>
+              {randomItems.map((item, index) => (
+                <li key={index}>
+                  {item.name} - ₽ {formatMoney(item.basePrice)}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </>

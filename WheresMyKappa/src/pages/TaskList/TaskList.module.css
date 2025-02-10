@@ -43,8 +43,6 @@ html {
   min-width: 250px;
   max-width: 350px;
   padding: 0.7rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
 
 .traderCard {
@@ -73,13 +71,11 @@ html {
   padding: 1rem;
   border-bottom: 2px solid #ffffff33;
   background-color: #3a3a3a;
-  border-radius: 10px 10px 0 0;
 }
 
 .traderImage {
   width: 60px;
   height: 60px;
-  border-radius: 50%;
   margin-right: 10px;
 }
 
@@ -167,12 +163,10 @@ html {
   width: 20rem;
   background-color: #eeeeee;
   height: 20px;
-  border-radius: 8px;
 }
 
 .progressBar .p-progress-bar-value {
   background-color: #4caf50;
-  border-radius: 8px;
 }
 
 /* Loading Screen */
