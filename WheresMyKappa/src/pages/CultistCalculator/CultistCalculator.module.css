@@ -1,4 +1,6 @@
 .pageContainer {
+  
+  margin-bottom: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,11 +144,12 @@ input {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #1a1a2e;
 }
 
 @media (max-width: 600px) {
   .pageContainer {
     padding: 1.5rem;
+    
+  margin-bottom: 30rem;
   }
 }

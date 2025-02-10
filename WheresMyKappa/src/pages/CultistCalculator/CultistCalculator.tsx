@@ -3,7 +3,7 @@ import { AutoComplete } from "primereact/autocomplete";
 import { ProgressSpinner } from "primereact/progressspinner";
 import styles from "./CultistCalculator.module.css";
 import { Item } from "../../interfaces/items";
-import { fetchAllItems } from "../../services/Services";
+import { fetchCultistCircleItems } from "../../services/Services";
 import { Button } from "primereact/button";
 
 const CultistCalculator: React.FC = () => {
@@ -21,7 +21,8 @@ const CultistCalculator: React.FC = () => {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const fetchedItems = await fetchAllItems();
+        const fetchedItems = await fetchCultistCircleItems();
+        console.log('fetcheditems', fetchedItems);
         setItems(fetchedItems);
       } catch (err) {
         setError("Failed to fetch items");

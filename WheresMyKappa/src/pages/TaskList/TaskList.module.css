@@ -17,6 +17,7 @@ html {
 
 /* Page Layout */
 .pageContainer {
+  margin-bottom: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +85,6 @@ html {
   min-width: 250px;
   max-width: 350px;
   text-align: center;
-  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

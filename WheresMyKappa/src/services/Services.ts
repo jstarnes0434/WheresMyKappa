@@ -44,7 +44,7 @@ const GET_ITEMS_QUERY = `
     shortName
     description
     category {
-      name
+      name parent { name }
     }
     weight
   }
@@ -121,6 +121,26 @@ export const fetchAllItems = async () => {
     throw error; // Rethrow the error to be handled by the calling component
   }
 };
+
+export const fetchCultistCircleItems = async () => {
+  try {
+    const data: ItemData = await request(GRAPHQL_URL, GET_ITEMS_QUERY);
+
+    // List of parent names to exclude
+    const excludedCategories = ["Stackable item", "Key", "Weapon", "Repair"];
+
+    // Filter out items whose parent category is in the excluded list
+    const filteredItems = data.items.filter(
+      (item) => !excludedCategories.includes(item.category.parent?.name || "")
+    );
+
+    return filteredItems; // Return the filtered items
+  } catch (error) {
+    console.error("Error fetching cultist circle items:", error);
+    throw error; // Rethrow the error to be handled by the calling component
+  }
+};
+
 
 // Function to fetch tasks from the API
 export const fetchTasks = async () => {

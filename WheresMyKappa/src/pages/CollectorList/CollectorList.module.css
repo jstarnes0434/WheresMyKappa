@@ -6,8 +6,7 @@
   padding: 1rem;
   background-color: #1e1e1e; /* Dark theme background */
   color: #ffffff;
-  height: 100vh; /* Full height of the screen */
-  overflow: hidden; /* Prevents body from scrolling */
+  margin-bottom: 30rem;
 }
 
 .imagePicture {

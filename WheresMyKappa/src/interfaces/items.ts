@@ -10,9 +10,14 @@ export interface Item {
   weight: number;
   category: {
     name: string;
+    parent: Parent;
   };
 }
 
 export interface ItemData {
   items: Item[];
+}
+
+export interface Parent {
+  name: string;
 }
