@@ -16,7 +16,7 @@ const CultistCalculator: React.FC = () => {
   const [filteredItems, setFilteredItems] = useState<Item[][]>(
     Array(5).fill([])
   );
-  const [randomItems, setRandomItems] = useState<Item[]>([]);
+  const [randomItems,] = useState<Item[]>([]);
 
   useEffect(() => {
     const getItems = async () => {
