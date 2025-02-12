@@ -1,4 +1,5 @@
 .craftsCard {
+  font-family: monospace !important;
   width: 60%;
   margin: 16px auto;
   display: flex;
@@ -123,7 +124,7 @@
 }
 
 .itemName {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: monospace;
   font-size: 18px;
   color: #fff; /* Or any other color that fits your theme */
   text-align: center;

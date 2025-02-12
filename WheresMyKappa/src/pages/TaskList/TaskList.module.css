@@ -1,7 +1,9 @@
 /* General Styling */
 body,
 html {
-  font-family: "Inter", sans-serif;
+  
+  font-family: monospace !important;
+  font-family: monospace;
   background-color: #1e1e1e;
   color: #ffffff;
   font-size: 100%;
@@ -33,6 +35,8 @@ html {
 /* Trader & Task Cards */
 .traderCard,
 .taskCard {
+  font-size: 18px;
+
   min-width: 250px;
   max-width: 350px;
   padding: 0.7rem;
@@ -43,6 +47,8 @@ html {
 }
 
 .taskCard {
+  
+  font-family: monospace !important;
   background-color: #343434;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
   cursor: pointer;
