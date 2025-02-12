@@ -158,12 +158,15 @@ const TasksList: React.FC = () => {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            {task.name}
-                            <span className={styles.minPlayerLevel}>- Level {task.minPlayerLevel}</span>
+                            <span className={styles.taskName}>{task.name}</span>
+                            <span className={styles.minPlayerLevel}>
+                              - Level {task.minPlayerLevel}
+                            </span>
                           </a>
                         </div>
-                        {/* Display the task map name, checking if map is null */}
-                        {task.map?.name && <div>{task.map?.name}</div>}
+                        <div className={styles.mapName}>
+                          {task.map?.name && <div>{task.map?.name}</div>}
+                        </div>
                         <div>
                           <img
                             src={task.taskImageLink}
