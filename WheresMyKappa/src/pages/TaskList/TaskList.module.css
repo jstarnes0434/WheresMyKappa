@@ -145,7 +145,6 @@ html {
   text-decoration: underline;
 }
 
-/* Progress Tracker */
 .progressContainer {
   display: flex;
   justify-content: center;
