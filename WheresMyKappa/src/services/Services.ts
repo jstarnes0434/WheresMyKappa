@@ -9,7 +9,6 @@ const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual
 const GET_CRAFTS_QUERY = `
    query {crafts {
     id
-    id
     duration
     source
     sourceName
@@ -17,6 +16,7 @@ const GET_CRAFTS_QUERY = `
     rewardItems {
       item {
         name
+        wikiLink
         shortName
         baseImageLink
         image512pxLink
@@ -25,6 +25,7 @@ const GET_CRAFTS_QUERY = `
     requiredItems {
       item {
         name
+        wikiLink
         shortName
         baseImageLink
         image512pxLink

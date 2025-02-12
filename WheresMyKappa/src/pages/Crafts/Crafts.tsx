@@ -49,10 +49,11 @@ const Crafts: React.FC = () => {
 
   const allRewardItemNames = Array.from(
     new Set(
-      crafts.crafts.flatMap((craft) =>
-        craft.rewardItems
-          ?.map((reward) => reward.item?.shortName)
-          .filter(Boolean) // Ensure no null or undefined values are included
+      crafts.crafts.flatMap(
+        (craft) =>
+          craft.rewardItems
+            ?.map((reward) => reward.item?.shortName)
+            .filter(Boolean) // Ensure no null or undefined values are included
       )
     )
   );
@@ -77,7 +78,7 @@ const Crafts: React.FC = () => {
   const filteredCrafts = sortedGroups.map((group) => {
     const filteredCrafts = group.crafts.filter((craft) => {
       const hasMatchingReward = craft.rewardItems?.some((reward) => {
-        const shortName = reward.item?.shortName?.toLowerCase() || ''; // Default to empty string if null or undefined
+        const shortName = reward.item?.shortName?.toLowerCase() || ""; // Default to empty string if null or undefined
         return (
           // If no filter or search input is set, return all items
           (!filterItem && !searchInput) ||
@@ -117,7 +118,10 @@ const Crafts: React.FC = () => {
           <div className={styles.filterBar}>
             <Dropdown
               value={filterItem}
-              options={allRewardItemNames.map((name) => ({ label: name, value: name }))}
+              options={allRewardItemNames.map((name) => ({
+                label: name,
+                value: name,
+              }))}
               onChange={(e) => setFilterItem(e.value)}
               placeholder="Select Reward Item"
               className={styles.filterDropdown}
@@ -155,7 +159,9 @@ const Crafts: React.FC = () => {
                     {group.crafts.map((craft) => (
                       <div key={craft.id} className={styles.craftsCard}>
                         <div className={styles.cardHeader}>
-                          <div className={styles.craftSource}>{craft.source}</div>
+                          <div className={styles.craftSource}>
+                            {craft.source}
+                          </div>
                           <div className={styles.craftDuration}>
                             {formatDuration(craft.duration)}
                           </div>
@@ -203,7 +209,9 @@ const Crafts: React.FC = () => {
                                     className={styles.rewareImg}
                                   />
                                   <div className={styles.itemName}>
-                                    {reward.item.shortName}
+                                    <a href={reward.item.wikiLink}>
+                                      {reward.item.shortName}
+                                    </a>
                                   </div>
                                 </div>
                               ) : null

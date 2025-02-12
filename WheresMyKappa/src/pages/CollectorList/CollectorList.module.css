@@ -15,6 +15,7 @@
 }
 
 .pageTitle {
+  font-family: monospace;
   font-size: 24px;
   margin-bottom: 1rem;
 }
@@ -22,7 +23,12 @@
 /* Checked Item Card */
 .checkedItem {
   background-color: #6fa581 !important;
-  color: rgb(28, 28, 28) !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+.checkedItem .itemDescription {
+  font-size: 14px;
+  color: #242424;
 }
 
 /* Item Grid */
@@ -38,6 +44,7 @@
 
 /* Individual Item Card */
 .itemCard {
+  font-family: monospace;
   min-width: 250px;
   max-width: 300px;
   width: 100%;
@@ -64,7 +71,7 @@
 /* Description */
 .itemDescription {
   font-size: 14px;
-  color: #b0b0b0;
+  color: #c6c6c6;
 }
 
 /* Loading Screen */

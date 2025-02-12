@@ -99,6 +99,10 @@ input {
   padding: 10px;
 }
 
+.randomButton {
+  font-family: monospace;
+}
+
 .inputWithClear {
   position: relative;
   display: flex;

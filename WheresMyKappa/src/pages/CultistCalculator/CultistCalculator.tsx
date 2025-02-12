@@ -22,7 +22,7 @@ const CultistCalculator: React.FC = () => {
     const getItems = async () => {
       try {
         const fetchedItems = await fetchCultistCircleItems();
-        console.log('fetcheditems', fetchedItems);
+        console.log("fetcheditems", fetchedItems);
         setItems(fetchedItems);
       } catch (err) {
         setError("Failed to fetch items");
@@ -56,15 +56,30 @@ const CultistCalculator: React.FC = () => {
   );
 
   const getRandomItems = () => {
-    const eligibleItems = items.filter((item): item is Item => item !== null && item.basePrice > 60000 && item.basePrice < 70000);
-    console.log(eligibleItems);
+    const eligibleItems = items.filter(
+      (item): item is Item =>
+        item !== null &&
+        item.basePrice > 80000 &&
+        item.basePrice < 100000 &&
+        item.category.name !== "Silencer" &&
+        item.category.name !== "Armor" &&
+        item.category.name !== "Night Vision" &&
+        item.category.name !== "Scope" &&
+        item.category.name !== "Armor Plate" &&
+        item.category.name !== "Headwear" &&
+        item.category.name !== "Plate Carrier" &&
+        item.category.name !== "Chest rig" &&
+        item.category.name !== "Backpack" &&
+        item.category.name !== "Plate Carrier" &&
+        item.category.name !== "Plate Carrier" &&
+        item.category.name !== "Plate Carrier" &&
+        item.category.name !== "Plate Carrier" &&
+        item.category.name !== "Plate Carrier"
+    );
+
     if (eligibleItems.length >= 5) {
-      console.log(eligibleItems);
       const shuffled = [...eligibleItems].sort(() => 0.5 - Math.random());
-      setRandomItems(shuffled.slice(0, 5));
-    } else {
-      console.log("wtf2");
-      setRandomItems([]);
+      setSelectedItems(shuffled.slice(0, 5));
     }
   };
 
@@ -128,6 +143,7 @@ const CultistCalculator: React.FC = () => {
               {selectedItem && (
                 <div className={styles.basePrice}>
                   Base Price: ₽ {formatMoney(selectedItem.basePrice)}
+                  {selectedItem.category.name}
                 </div>
               )}
             </div>
@@ -148,7 +164,7 @@ const CultistCalculator: React.FC = () => {
         )}
 
         <Button className={styles.randomButton} onClick={getRandomItems}>
-          Show 5 Random Items
+          Get 5 Random Items
         </Button>
 
         {randomItems.length > 0 && (
@@ -158,6 +174,7 @@ const CultistCalculator: React.FC = () => {
               {randomItems.map((item, index) => (
                 <li key={index}>
                   {item.name} - ₽ {formatMoney(item.basePrice)}
+                  {item.category.name}
                 </li>
               ))}
             </ul>

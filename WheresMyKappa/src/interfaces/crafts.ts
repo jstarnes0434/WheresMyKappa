@@ -23,6 +23,7 @@ export interface RequiredItem {
 
 export interface Item {
   name: string;
+  wikiLink: string;
   shortName: string;
   baseImageLink: string;
   image512pxLink: string;
