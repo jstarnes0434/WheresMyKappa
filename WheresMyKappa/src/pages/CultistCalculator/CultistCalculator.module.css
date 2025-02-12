@@ -1,5 +1,4 @@
 .pageContainer {
-  
   font-family: monospace !important;
   margin-bottom: 30rem;
   display: flex;
@@ -14,7 +13,6 @@
 }
 
 .pageTitle {
-  
   font-family: monospace !important;
   font-size: 1.8rem;
   font-weight: bold;
@@ -23,7 +21,6 @@
 }
 
 .inputContainer {
-  
   font-family: monospace !important;
   display: flex;
   flex-direction: column;
@@ -89,10 +86,10 @@
   border-bottom: solid 1px grey;
 }
 
-input {  
+input {
   font-size: 20px;
   height: 4rem;
-  width: 40rem;
+  width: 100%;
   background-color: #2b2b2b;
   color: white;
   border: none;
@@ -112,7 +109,6 @@ input {
 
 .autocompleteinput {
   flex: 1;
-  padding-right: 30px; /* Ensure space for the button */
 }
 
 .clearButton {
@@ -124,7 +120,6 @@ input {
   cursor: pointer;
   color: #888;
 }
-
 
 .inputField:focus {
   outline: none;
@@ -158,7 +153,15 @@ input {
 @media (max-width: 600px) {
   .pageContainer {
     padding: 1.5rem;
-    
-  margin-bottom: 30rem;
+
+    margin-bottom: 30rem;
+  }
+
+  .panelClass {
+    padding: 20px;
+    width: 90%;
+    font-size: 1rem;
+    background: #2b2b2b;
+    color: #ffffff;
   }
 }

@@ -54,6 +54,7 @@
   padding: 1rem;
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
+  text-align: center;
 }
 
 .itemCard:hover {
@@ -81,4 +82,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .itemCardHeader {
+    display: none;
+  }
+
+  /* Description */
+  .itemDescription {
+    display: none;
+  }
 }

@@ -16,7 +16,7 @@ const CultistCalculator: React.FC = () => {
   const [filteredItems, setFilteredItems] = useState<Item[][]>(
     Array(5).fill([])
   );
-  const [randomItems,] = useState<Item[]>([]);
+  const [randomItems] = useState<Item[]>([]);
 
   useEffect(() => {
     const getItems = async () => {
@@ -143,7 +143,6 @@ const CultistCalculator: React.FC = () => {
               {selectedItem && (
                 <div className={styles.basePrice}>
                   Base Price: ₽ {formatMoney(selectedItem.basePrice)}
-                  {selectedItem.category.name}
                 </div>
               )}
             </div>
