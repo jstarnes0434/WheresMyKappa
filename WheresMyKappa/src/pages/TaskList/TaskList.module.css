@@ -1,7 +1,6 @@
 /* General Styling */
 body,
 html {
-  
   font-family: monospace !important;
   font-family: monospace;
   background-color: #1e1e1e;
@@ -36,8 +35,6 @@ html {
 .traderCard,
 .taskCard {
   font-size: 18px;
-
-  min-width: 250px;
   max-width: 350px;
   padding: 0.7rem;
 }
@@ -47,7 +44,6 @@ html {
 }
 
 .taskCard {
-  
   font-family: monospace !important;
   background-color: #343434;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
@@ -179,9 +175,14 @@ html {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  body {
-    font-size: 90%;
-  }
+  
+
+
+  .taskRequirements {display: none;}
+
+  .taskObjectives {display: none;}
+
+  .minPlayerLevel {display: none}
 
   .taskCard:hover {
     transform: none; /* Prevents hover scaling on touch devices */

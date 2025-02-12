@@ -1,65 +1,39 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import TasksList from "./pages/TaskList/TaskList";
-import CultistCalculator from "./pages/CultistCalculator/CultistCalculator";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import GraphicHeader from "./components/graphicHeader/GraphicHeader";
-import CollectorList from "./pages/CollectorList/CollectorList";
-import Crafts from "./pages/Crafts/Crafts";
+import styles from "./App.module.css"; // Import CSS module
+import AppRoutes from "./components/Routing/AppRoutes";
 
 const App: React.FC = () => {
   return (
     <>
       <GraphicHeader />
       <Router>
-        <div>
+        <div className={styles.container}>
           {/* Navigation Bar */}
-          <nav
-            style={{
-              padding: "10px",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Link to="/" style={navLinkStyle}>
+          <nav className={styles.navbar}>
+            <Link to="/" className={styles.navLink}>
               Tasks
             </Link>
-            <Link to="/collector" style={navLinkStyle}>
+            <Link to="/collector" className={styles.navLink}>
               Collector
             </Link>
-            <Link to="/cultistcalculator" style={navLinkStyle}>
+            <Link to="/cultistcalculator" className={styles.navLink}>
               Cultist Calculator
             </Link>
-            {/*  <Link to="/crafts" style={navLinkStyle}>
+           {/*  <Link to="/crafts" className={styles.navLink}>
               Crafts
-            </Link> */}
+            </Link>  */}
           </nav>
 
           {/* Page Content */}
-          <div style={{ flex: 1, padding: "20px" }}>
-            <Routes>
-              <Route path="/" element={<TasksList />} />
-              <Route path="/collector" element={<CollectorList />} />
-              <Route path="/crafts" element={<Crafts />} />
-              <Route
-                path="/cultistcalculator"
-                element={<CultistCalculator />}
-              />
-            </Routes>
+          <div className={styles.content}>
+            <AppRoutes /> {/* Use the extracted routes component */}
           </div>
         </div>
       </Router>
     </>
   );
-};
-
-// Navigation Link Styles
-const navLinkStyle: React.CSSProperties = {
-  color: "white",
-  textDecoration: "none",
-  fontSize: "18px",
-  margin: "0 20px",
-
-  borderRadius: "5px",
 };
 
 export default App;

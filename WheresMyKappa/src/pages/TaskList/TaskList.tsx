@@ -158,7 +158,8 @@ const TasksList: React.FC = () => {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            {task.name} - Level {task.minPlayerLevel}
+                            {task.name}
+                            <span className={styles.minPlayerLevel}>- Level {task.minPlayerLevel}</span>
                           </a>
                         </div>
                         {/* Display the task map name, checking if map is null */}
@@ -169,25 +170,29 @@ const TasksList: React.FC = () => {
                             className={styles.taskImage}
                           />
                         </div>
-
-                        {task.taskRequirements && (
-                          <>
-                            <div className={styles.taskSubHeader}>
-                              Requirements:
-                            </div>
-                            <ul>
-                              {task.taskRequirements.map((requirement, index) =>
-                                requirement.task ? (
-                                  <li key={index}>{requirement.task.name}</li>
-                                ) : null
-                              )}
-                            </ul>
-                          </>
-                        )}
+                        <div className={styles.taskRequirements}>
+                          {task.taskRequirements && (
+                            <>
+                              <div className={styles.taskSubHeader}>
+                                Requirements:
+                              </div>
+                              <ul>
+                                {task.taskRequirements.map(
+                                  (requirement, index) =>
+                                    requirement.task ? (
+                                      <li key={index}>
+                                        {requirement.task.name}
+                                      </li>
+                                    ) : null
+                                )}
+                              </ul>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
 
-                    <div>
+                    <div className={styles.taskObjectives}>
                       <div className={styles.taskSubHeader}>
                         Task Objectives:
                       </div>

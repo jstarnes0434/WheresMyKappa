@@ -1,27 +1,49 @@
 .progressContainer {
   padding: 2rem;
-  gap: 10rem;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 400px; /* Prevents it from stretching too much */
+  margin: auto;
 }
 
 .progressTitle {
-  padding: 0;
-
-  font-size: 30px;
+  font-size: 24px;
   color: #ffffff;
-  margin: 0;
-  padding: 5px;
+  margin: 5px 0;
+}
+
+.progressBarContainer {
+  width: 100%;
+  max-width: 300px;
+  height: 20px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
 }
 
 .progressBar {
-  width: 20rem; /* Set the width to 20rem */
-  margin-top: 10px;
-  background-color: #eeeeee;
-  height: 20px;
+  height: 100%;
+  width: 0%; /* Default, updated dynamically */
+  background-color: #4caf50; /* Green color for progress */
+  transition: width 0.3s ease-in-out;
 }
 
-.progressBar .p-progress-bar-value {
-  background-color: #4caf50; /* Green color for progress */
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .progressContainer {
+    padding: 1rem;
+  }
+
+  .progressTitle {
+    font-size: 20px;
+  }
+
+  .progressBarContainer {
+    max-width: 250px;
+    height: 15px;
+  }
 }
