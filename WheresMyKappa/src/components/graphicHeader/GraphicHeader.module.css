@@ -1,6 +1,8 @@
 .graphicWrapper {
-  width: 100%;
-  margin: 0;
+  width: 50%;
+  margin: auto;
   padding: 0;
   text-align: center;
 }
+
+.graphicWrapper img {width: 100%;}

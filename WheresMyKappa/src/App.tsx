@@ -1,10 +1,10 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import TasksList from "./pages/TaskList/TaskList";
 import CultistCalculator from "./pages/CultistCalculator/CultistCalculator";
 import GraphicHeader from "./components/graphicHeader/GraphicHeader";
 import CollectorList from "./pages/CollectorList/CollectorList";
+import Crafts from "./pages/Crafts/Crafts";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +29,9 @@ const App: React.FC = () => {
             <Link to="/cultistcalculator" style={navLinkStyle}>
               Cultist Calculator
             </Link>
+            {/*  <Link to="/crafts" style={navLinkStyle}>
+              Crafts
+            </Link> */}
           </nav>
 
           {/* Page Content */}
@@ -36,6 +39,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<TasksList />} />
               <Route path="/collector" element={<CollectorList />} />
+              <Route path="/crafts" element={<Crafts />} />
               <Route
                 path="/cultistcalculator"
                 element={<CultistCalculator />}
@@ -56,7 +60,6 @@ const navLinkStyle: React.CSSProperties = {
   margin: "0 20px",
 
   borderRadius: "5px",
- 
 };
 
 export default App;

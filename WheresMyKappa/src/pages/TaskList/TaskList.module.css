@@ -7,14 +7,6 @@ html {
   font-size: 100%;
 }
 
-:global .p-dropdown {
-  width: 250px !important;
-}
-
-:global .p-card .p-card-content {
-  padding: 0 !important;
-}
-
 /* Page Layout */
 .pageContainer {
   margin-bottom: 30rem;

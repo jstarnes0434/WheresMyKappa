@@ -22,7 +22,7 @@
 /* Checked Item Card */
 .checkedItem {
   background-color: #6fa581 !important;
-  color: white;
+  color: rgb(28, 28, 28) !important;
 }
 
 /* Item Grid */

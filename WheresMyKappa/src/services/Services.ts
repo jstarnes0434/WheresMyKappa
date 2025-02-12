@@ -1,9 +1,37 @@
 import { request } from "graphql-request";
 import { TaskData } from "../interfaces/task";
 import { ItemData } from "../interfaces/items";
+import { CraftingData } from "../interfaces/crafts";
 
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
+
+const GET_CRAFTS_QUERY = `
+   query {crafts {
+    id
+    id
+    duration
+    source
+    sourceName
+    level
+    rewardItems {
+      item {
+        name
+        shortName
+        baseImageLink
+        image512pxLink
+      }
+    }
+    requiredItems {
+      item {
+        name
+        shortName
+        baseImageLink
+        image512pxLink
+      }
+    }
+  }
+}`;
 
 const GET_TASKS_QUERY = `
  query {
@@ -141,6 +169,15 @@ export const fetchCultistCircleItems = async () => {
   }
 };
 
+export const fetchCrafts = async () => {
+  try {
+    const data: CraftingData = await request(GRAPHQL_URL, GET_CRAFTS_QUERY);
+    return data; // Return the filtered items
+  } catch (error) {
+    console.error("Error fetching crafts", error);
+    throw error; // Rethrow the error to be handled by the calling component
+  }
+};
 
 // Function to fetch tasks from the API
 export const fetchTasks = async () => {

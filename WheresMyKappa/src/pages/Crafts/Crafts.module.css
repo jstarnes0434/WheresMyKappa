@@ -1,0 +1,182 @@
+.craftsCard {
+  width: 60%;
+  margin: 16px auto;
+  display: flex;
+  flex-direction: column; /* Change from row to column to allow header at the top */
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background: #424242; /* Dark theme for Tarkov aesthetic */
+  color: #fff;
+  gap: 16px;
+}
+.filterBar {
+  height: 40px;
+  margin: 10px auto;
+  justify-content: left;
+  width: 80%;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.filterDropdown,
+.filterInput {
+  width: 200px;
+  height: 40px;
+}
+
+.cardDetails {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ccc; /* Optional: Adds separation between header and body */
+}
+
+.groupCard {
+  width: 80%;
+  margin: 16px auto;
+  background-color: #333; /* Slightly darker to distinguish group cards */
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  color: #fff;
+}
+
+.caretIcon {
+  cursor: pointer;
+}
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 16px;
+}
+
+.toggleIcon {
+  font-size: 1.5rem;
+  color: #f5a623; /* Optional: color for the icon */
+  cursor: pointer;
+}
+
+.craftsList {
+  margin-top: 16px;
+}
+
+.groupHeader h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f5a623; /* Optional: Gives a highlight to the group name */
+}
+
+.craftSource {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.craftDuration {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+/* Rest of the styles remain the same */
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ccc; /* Optional: Adds separation between header and body */
+}
+
+.craftSource {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.craftDuration {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.itemCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* Space between the image and name */
+}
+
+.requiredImg {
+  margin: 5px;
+  height: 100px;
+  width: 100px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.itemName {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 18px;
+  color: #fff; /* Or any other color that fits your theme */
+  text-align: center;
+  max-width: 100px; /* Optional: ensure the name text doesn't overflow */
+  word-wrap: break-word; /* Optional: breaks long words if necessary */
+}
+
+.requiredSection {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap */
+  gap: 12px;
+  align-items: center;
+  flex: 1; /* Take up equal width */
+}
+
+.itemCard {
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  background: #393939;
+  border-radius: 15px;
+  min-width: 200px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* Space between the image and name */
+}
+
+.requiredImg {
+  height: 100px;
+  cursor: pointer;
+}
+
+.rewardSection {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+  flex: 1; /* Take up equal width */
+}
+
+.rewareImg {
+  height: 100px;
+  cursor: pointer;
+}
+
+.arrow {
+  font-size: 24px;
+  font-weight: bold;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto; /* Prevent it from growing too wide */
+}
