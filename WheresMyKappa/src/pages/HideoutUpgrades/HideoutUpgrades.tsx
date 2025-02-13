@@ -12,7 +12,7 @@ const HideoutUpgrades: React.FC = () => {
     hideoutStations: [],
   });
 
-  const [crafts, setCrafts] = useState<CraftingData>({ crafts: [] });
+  const [setCrafts] = useState<CraftingData>({ crafts: [] });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
