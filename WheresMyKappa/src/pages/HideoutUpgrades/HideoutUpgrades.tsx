@@ -21,12 +21,12 @@ const HideoutUpgrades: React.FC = () => {
     if (hours > 0 || minutes > 0) {
       if (hours > 0) {
         if (remainingMinutes > 0) {
-          return `${hours}hours ${remainingMinutes}minutes`;
+          return `${hours} hours ${remainingMinutes} minutes`;
         } else {
-          return `${hours}hours`;
+          return `${hours} hours`;
         }
       } else {
-        return `${minutes}minutes`;
+        return `${minutes} minutes`;
       }
     } else {
       return "";
