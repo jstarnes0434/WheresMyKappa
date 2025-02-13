@@ -236,7 +236,7 @@ const HideoutUpgrades: React.FC = () => {
                 ))}
               </Card>
             ))}
-            {!selectedItem && (
+            {!selectedItem || !selectedLevel || !selectedStation && (
               <Card
                 key="aggregated-items"
                 title={
