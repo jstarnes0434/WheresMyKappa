@@ -14,6 +14,25 @@ const HideoutUpgrades: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    if (hours > 0 || minutes > 0) {
+      if (hours > 0) {
+        if (remainingMinutes > 0) {
+          return `${hours}hours ${remainingMinutes}minutes`;
+        } else {
+          return `${hours}hours`;
+        }
+      } else {
+        return `${minutes}minutes`;
+      }
+    } else {
+      return "";
+    }
+  };
+
   useEffect(() => {
     const getHideoutUpgrades = async () => {
       try {
@@ -105,7 +124,7 @@ const HideoutUpgrades: React.FC = () => {
                   <div key={level.id} className={styles.levelContainer}>
                     <h3>Level {level.level}</h3>
                     <p>{level.description}</p>
-                    <p>Construction Time: {level.constructionTime} seconds</p>
+                    <p>Construction Time: {formatTime(level.constructionTime)}</p>
                     <h4>Requirements:</h4>
                     <ul className={styles.requirementsList}>
                       {level.itemRequirements.map((req) => (
