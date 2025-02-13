@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styles from "./HideoutUpgrades.module.css"; // Import CSS module
-import { fetchHideoutUpgrades } from "../../services/Services";
+import { fetchCrafts, fetchHideoutUpgrades } from "../../services/Services";
 import { HideoutData } from "../../interfaces/hideoutupgrade";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
+import { CraftingData } from "../../interfaces/crafts";
 
 const HideoutUpgrades: React.FC = () => {
   const [hideoutUpgrades, setHideoutUpgrades] = useState<HideoutData>({
     hideoutStations: [],
   });
+
+  const [crafts, setCrafts] = useState<CraftingData>({ crafts: [] });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -34,17 +37,51 @@ const HideoutUpgrades: React.FC = () => {
   };
 
   useEffect(() => {
-    const getHideoutUpgrades = async () => {
+    const getHideoutData = async () => {
       try {
-        const fetchedCrafts = await fetchHideoutUpgrades();
-        setHideoutUpgrades(fetchedCrafts);
+        const [fetchedHideoutUpgrades, fetchedCrafts] = await Promise.all([
+          fetchHideoutUpgrades(),
+          fetchCrafts(),
+        ]);
+
+        // Create a lookup map for crafting sources
+        const craftSourceMap = new Map<string, string>();
+
+        fetchedCrafts.crafts.forEach((craft) => {
+          craft.rewardItems.forEach((reward) => {
+            craftSourceMap.set(reward.item.name, craft.source);
+          });
+        });
+
+        // Update hideoutUpgrades with source for required items
+        const updatedHideoutUpgrades: HideoutData = {
+          hideoutStations: fetchedHideoutUpgrades.hideoutStations.map(
+            (station) => ({
+              ...station,
+              levels: station.levels.map((level) => ({
+                ...level,
+                itemRequirements: level.itemRequirements.map((req) => ({
+                  ...req,
+                  item: {
+                    ...req.item,
+                    source: craftSourceMap.get(req.item.name) || "",
+                  },
+                })),
+              })),
+            })
+          ),
+        };
+
+        setHideoutUpgrades(updatedHideoutUpgrades);
+        setCrafts(fetchedCrafts);
       } catch (err) {
         setError("Failed to fetch items");
       } finally {
         setLoading(false);
       }
     };
-    getHideoutUpgrades();
+
+    getHideoutData();
   }, []);
 
   const allItems = Array.from(
@@ -124,7 +161,9 @@ const HideoutUpgrades: React.FC = () => {
                   <div key={level.id} className={styles.levelContainer}>
                     <h3>Level {level.level}</h3>
                     <p>{level.description}</p>
-                    <p>Construction Time: {formatTime(level.constructionTime)}</p>
+                    <p>
+                      Construction Time: {formatTime(level.constructionTime)}
+                    </p>
                     <h4>Requirements:</h4>
                     <ul className={styles.requirementsList}>
                       {level.itemRequirements.map((req) => (
@@ -136,16 +175,15 @@ const HideoutUpgrades: React.FC = () => {
                             <i
                               className={
                                 req.item.craftsFor.length > 0
-                                  ? "pi pi-check"
+                                  ? ""
                                   : "pi pi-times"
                               }
                               style={{
                                 color:
-                                  req.item.craftsFor.length > 0
-                                    ? "green"
-                                    : "red",
+                                  req.item.craftsFor.length > 0 ? "" : "red",
                               }}
                             ></i>
+                            <span style={{ color: "green" }}> {req.item.source}</span>
                           </span>
                         </li>
                       ))}
@@ -186,10 +224,8 @@ const HideoutUpgrades: React.FC = () => {
                         </span>
                         <span className={styles.icon}>
                           <i
-                            className={
-                              isCraftable ? "pi pi-check" : "pi pi-times"
-                            }
-                            style={{ color: isCraftable ? "green" : "red" }}
+                            className={isCraftable ? "" : "pi pi-times"}
+                            style={{ color: isCraftable ? "" : "red" }}
                           ></i>
                         </span>
                       </li>

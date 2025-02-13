@@ -1,6 +1,7 @@
 export interface Item {
   name: string;
   craftsFor: Craft[];
+  source: string;
 }
 
 export interface Craft {
