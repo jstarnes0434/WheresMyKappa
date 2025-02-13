@@ -12,13 +12,15 @@ const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
-    () => {
-      const savedCheckedTasks = localStorage.getItem("checkedTasks");
-      return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
-    }
-  );
-  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(true); // Toggle state for checked tasks
+  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(() => {
+    const savedCheckedTasks = localStorage.getItem("checkedTasks");
+    return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
+  });
+  const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(() => {
+    // Initialize from localStorage or default to true
+    const savedShowCheckedTasks = localStorage.getItem("showCheckedTasks");
+    return savedShowCheckedTasks ? JSON.parse(savedShowCheckedTasks) : true;
+  });
   const [selectedMap, setSelectedMap] = useState<string | null>(null); // Selected map for filtering
 
   useEffect(() => {
@@ -83,6 +85,11 @@ const TasksList: React.FC = () => {
     },
     {} as { [key: string]: Task[] }
   );
+
+  // Save the showCheckedTasks value in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("showCheckedTasks", JSON.stringify(showCheckedTasks));
+  }, [showCheckedTasks]);
 
   if (loading) {
     return (
