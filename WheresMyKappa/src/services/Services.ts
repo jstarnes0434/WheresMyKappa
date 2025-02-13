@@ -3,6 +3,7 @@ import { TaskData } from "../interfaces/task";
 import { ItemData } from "../interfaces/items";
 import { CraftingData } from "../interfaces/crafts";
 import { HideoutData } from "../interfaces/hideoutupgrade";
+import { RequiredFIRTaskData } from "../interfaces/requiredFIRQuestItem";
 
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
@@ -34,6 +35,24 @@ const GET_CRAFTS_QUERY = `
     }
   }
 }`;
+
+const GET_QUEST_ITEMS_REQUIRED = ` 
+query {
+  tasks(gameMode: regular) {
+    experience
+    name
+    objectives {
+      ... on TaskObjectiveItem {
+        id
+        count
+        item {
+          name
+        }
+        foundInRaid
+      }
+    }
+  }
+} `;
 
 const GET_HIDEOUT_UPGRADE_QUERY = `
 query {
@@ -191,6 +210,19 @@ export const fetchHideoutUpgrades = async () => {
     return data; // return tasks data from the response
   } catch (error) {
     console.error("Error fetching tasks:", error);
+    throw error; // Rethrow the error to be handled by the calling component
+  }
+};
+
+export const fetchRequiredFIRQuestItems = async () => {
+  try {
+    const data: RequiredFIRTaskData = await request(
+      GRAPHQL_URL,
+      GET_QUEST_ITEMS_REQUIRED
+    );
+    return data.tasks; // return tasks data from the response
+  } catch (error) {
+    console.error("Error fetching required FIR Items:", error);
     throw error; // Rethrow the error to be handled by the calling component
   }
 };

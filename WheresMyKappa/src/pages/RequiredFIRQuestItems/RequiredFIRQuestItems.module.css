@@ -1,6 +1,9 @@
 /* General Styling */
 body,
 html {
+  font-family: "Inter", sans-serif;
+  background-color: #030303;
+  color: #ffffff;
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -121,6 +124,4 @@ html {
   width: 270px !important;
 }
 
-input {
-  height: 3rem !important;
-}
+input {height: 3rem !important;}
