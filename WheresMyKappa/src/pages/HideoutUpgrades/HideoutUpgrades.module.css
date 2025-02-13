@@ -43,21 +43,18 @@ html {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
   width: 400px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.traderCard:hover {
-  transform: scale(1.02);
 }
 
 /* Header Section */
 .traderHeader {
+  font-family: monospace;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
   border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   background: #282828;
+  font-size: 20px;
 }
 
 .traderImage {

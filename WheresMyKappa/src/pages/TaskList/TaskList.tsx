@@ -136,6 +136,7 @@ const TasksList: React.FC = () => {
                     alt={traderName}
                     className={styles.traderImage}
                   />
+                  <div>{traderName}</div>
                 </div>
               }
               className={styles.traderCard}
