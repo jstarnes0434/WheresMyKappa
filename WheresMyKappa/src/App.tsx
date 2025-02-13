@@ -21,7 +21,10 @@ const App: React.FC = () => {
             <Link to="/cultistcalculator" className={styles.navLink}>
               Cultist Calculator
             </Link>
-           {/*  <Link to="/crafts" className={styles.navLink}>
+            <Link to="/hideoutupgrades" className={styles.navLink}>
+              Hideout Upgrades
+            </Link>
+            {/*  <Link to="/crafts" className={styles.navLink}>
               Crafts
             </Link>  */}
           </nav>

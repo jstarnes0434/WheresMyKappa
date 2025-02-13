@@ -2,6 +2,7 @@ import { request } from "graphql-request";
 import { TaskData } from "../interfaces/task";
 import { ItemData } from "../interfaces/items";
 import { CraftingData } from "../interfaces/crafts";
+import { HideoutData } from "../interfaces/hideoutupgrade";
 
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
@@ -29,6 +30,36 @@ const GET_CRAFTS_QUERY = `
         shortName
         baseImageLink
         image512pxLink
+      }
+    }
+  }
+}`;
+
+const GET_HIDEOUT_UPGRADE_QUERY = `
+query {
+  hideoutStations {
+    name
+    normalizedName
+    imageLink
+    id
+    levels {
+      description
+      constructionTime
+      id
+      level
+      itemRequirements {
+        id
+        item {
+          name
+          craftsFor {
+            requiredItems {
+              item {
+                name
+              }
+            }
+          }
+        }
+        count
       }
     }
   }
@@ -145,6 +176,19 @@ export const fetchAllItems = async () => {
   try {
     const data: ItemData = await request(GRAPHQL_URL, GET_ITEMS_QUERY);
     return data.items; // return tasks data from the response
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    throw error; // Rethrow the error to be handled by the calling component
+  }
+};
+
+export const fetchHideoutUpgrades = async () => {
+  try {
+    const data: HideoutData = await request(
+      GRAPHQL_URL,
+      GET_HIDEOUT_UPGRADE_QUERY
+    );
+    return data; // return tasks data from the response
   } catch (error) {
     console.error("Error fetching tasks:", error);
     throw error; // Rethrow the error to be handled by the calling component
