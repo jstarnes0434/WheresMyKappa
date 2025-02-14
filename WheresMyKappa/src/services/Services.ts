@@ -38,17 +38,26 @@ const GET_CRAFTS_QUERY = `
 
 const GET_QUEST_ITEMS_REQUIRED = ` 
 query {
-  tasks(gameMode: regular) {
+  tasks {
     experience
     name
     objectives {
       ... on TaskObjectiveItem {
         id
         count
+        foundInRaid
+        description
+        type
         item {
           name
+          craftsFor {
+            requiredItems {
+              item {
+                name
+              }
+            }
+          }
         }
-        foundInRaid
       }
     }
   }
@@ -220,10 +229,28 @@ export const fetchRequiredFIRQuestItems = async () => {
       GRAPHQL_URL,
       GET_QUEST_ITEMS_REQUIRED
     );
-    return data.tasks; // return tasks data from the response
+
+    // Filter tasks that have at least one objective meeting the criteria
+    const filteredTasks = data.tasks
+      .map((task) => ({
+        ...task,
+        objectives: task.objectives.filter(
+          (objective) =>
+            objective.foundInRaid === true && objective.type === "giveItem"
+        ),
+      }))
+      .filter((task) => task.objectives.length > 0); // Remove tasks with no valid objectives
+
+    // Remove duplicate tasks based on task name
+    const uniqueTasks = Array.from(
+      new Map(filteredTasks.map((task) => [task.name, task])).values()
+    );
+
+    console.log(uniqueTasks);
+    return uniqueTasks;
   } catch (error) {
     console.error("Error fetching required FIR Items:", error);
-    throw error; // Rethrow the error to be handled by the calling component
+    throw error;
   }
 };
 

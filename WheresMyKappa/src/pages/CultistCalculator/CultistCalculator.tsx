@@ -85,8 +85,10 @@ const CultistCalculator: React.FC = () => {
 
   if (loading) {
     return (
-      <div className={styles.loadingScreen}>
-        <ProgressSpinner />
+      <div className={styles.pageContainer}>
+        <div className={styles.loadingScreen}>
+          <ProgressSpinner />
+        </div>
       </div>
     );
   }

@@ -5,7 +5,7 @@ import CollectorList from "../../pages/CollectorList/CollectorList";
 import Crafts from "../../pages/Crafts/Crafts";
 import CultistCalculator from "../../pages/CultistCalculator/CultistCalculator";
 import HideoutUpgrades from "../../pages/HideoutUpgrades/HideoutUpgrades";
-import RequiredFIRQuestItemsPage from "../../pages/RequiredFIRQuestItems/RequiredFIRQuestItems";
+import RequiredFIRItemsPage from "../../pages/RequiredFIRItems/RequiredFIRItems";
 
 
 const AppRoutes: React.FC = () => {
@@ -16,7 +16,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/crafts" element={<Crafts />} />
       <Route path="/cultistcalculator" element={<CultistCalculator />} />
       <Route path="/hideoutUpgrades" element={<HideoutUpgrades />} />
-      <Route path="/requiredfirquestitems" element={<RequiredFIRQuestItemsPage />} />
+      <Route path="/requiredFIRItems" element={<RequiredFIRItemsPage />} />
     </Routes>
   );
 };

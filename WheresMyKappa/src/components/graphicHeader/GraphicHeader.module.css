@@ -1,20 +1,46 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  padding: 10px;
+}
+
 .graphicWrapper {
   width: 50%;
-  margin: auto;
-  padding: 0;
   text-align: center;
 }
 
 .graphicWrapper img {
   width: 100%;
+  height: auto;
+}
+
+/* Style the TarkovClock elements */
+.container > div {
+  font-family: monospace;
+  text-align: center;
+  font-size: 3.5rem;
+  color: darkgreen;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .container > div {
+    font-family: monospace;
+    text-align: center;
+    font-size: .75rem;
+    color: darkgreen;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1px 2px;
+    border-radius: 8px;
+  }
+
   .graphicWrapper {
     width: 100%;
-    margin: auto;
-    padding: 0;
-    text-align: center;
   }
 }

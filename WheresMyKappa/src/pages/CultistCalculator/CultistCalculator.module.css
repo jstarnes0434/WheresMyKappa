@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0f0f0f;
   color: #ffffff;
   padding: 1rem 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -143,11 +142,14 @@ input {
   text-align: center;
 }
 
-.loadingScreen {
+loadingScreen,
+.error {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 2rem;
 }
 
 @media (max-width: 600px) {

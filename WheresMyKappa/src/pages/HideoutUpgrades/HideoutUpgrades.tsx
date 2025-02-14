@@ -12,7 +12,7 @@ const HideoutUpgrades: React.FC = () => {
     hideoutStations: [],
   });
 
-  const [,setCrafts] = useState<CraftingData>({ crafts: [] });
+  const [, setCrafts] = useState<CraftingData>({ crafts: [] });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -120,7 +120,9 @@ const HideoutUpgrades: React.FC = () => {
         (level) =>
           (!selectedLevel || level.level === selectedLevel) &&
           (!selectedItem ||
-            level.itemRequirements.some((req) => req.item.name === selectedItem))
+            level.itemRequirements.some(
+              (req) => req.item.name === selectedItem
+            ))
       ),
     }))
     .filter((station) => station.levels.length > 0); // Remove empty stations
@@ -150,6 +152,7 @@ const HideoutUpgrades: React.FC = () => {
         <div className={styles.error}>{error}</div>
       ) : (
         <>
+          
           <div className={styles.filterContainer}>
             <Dropdown
               value={selectedStation}
@@ -167,7 +170,6 @@ const HideoutUpgrades: React.FC = () => {
               placeholder="Filter by Level"
               className={styles.dropdownFilter}
               showClear
-              
             />
             <Dropdown
               value={selectedItem}
@@ -236,53 +238,55 @@ const HideoutUpgrades: React.FC = () => {
                 ))}
               </Card>
             ))}
-            {!selectedItem || !selectedLevel || !selectedStation && (
-              <Card
-                key="aggregated-items"
-                title={
-                  <div className={styles.traderHeader}>
-                    <i
-                      className="pi pi-wrench"
-                      style={{ fontSize: "3rem" }}
-                    ></i>
-                    <div>Total Item Requirements</div>
-                  </div>
-                }
-                className={styles.traderCard}
-              >
-                <ul className={styles.requirementsList}>
-                  {Object.entries(getAggregatedItemRequirements()).map(
-                    ([itemName, totalCount]) => {
-                      const item = hideoutUpgrades.hideoutStations
-                        .flatMap((station) =>
-                          station.levels.flatMap(
-                            (level) => level.itemRequirements
+            {!selectedItem ||
+              !selectedLevel ||
+              (!selectedStation && (
+                <Card
+                  key="aggregated-items"
+                  title={
+                    <div className={styles.traderHeader}>
+                      <i
+                        className="pi pi-wrench"
+                        style={{ fontSize: "3rem" }}
+                      ></i>
+                      <div>Total Item Requirements</div>
+                    </div>
+                  }
+                  className={styles.traderCard}
+                >
+                  <ul className={styles.requirementsList}>
+                    {Object.entries(getAggregatedItemRequirements()).map(
+                      ([itemName, totalCount]) => {
+                        const item = hideoutUpgrades.hideoutStations
+                          .flatMap((station) =>
+                            station.levels.flatMap(
+                              (level) => level.itemRequirements
+                            )
                           )
-                        )
-                        .find((req) => req.item.name === itemName)?.item;
+                          .find((req) => req.item.name === itemName)?.item;
 
-                      const isCraftable = item
-                        ? item.craftsFor.length > 0
-                        : false;
+                        const isCraftable = item
+                          ? item.craftsFor.length > 0
+                          : false;
 
-                      return (
-                        <li key={itemName} className={styles.itemRequirement}>
-                          <span className={styles.itemText}>
-                            {totalCount}x {itemName}
-                          </span>
-                          <span className={styles.icon}>
-                            <i
-                              className={isCraftable ? "" : "pi pi-times"}
-                              style={{ color: isCraftable ? "" : "red" }}
-                            ></i>
-                          </span>
-                        </li>
-                      );
-                    }
-                  )}
-                </ul>
-              </Card>
-            )}
+                        return (
+                          <li key={itemName} className={styles.itemRequirement}>
+                            <span className={styles.itemText}>
+                              {totalCount}x {itemName}
+                            </span>
+                            <span className={styles.icon}>
+                              <i
+                                className={isCraftable ? "" : "pi pi-times"}
+                                style={{ color: isCraftable ? "" : "red" }}
+                              ></i>
+                            </span>
+                          </li>
+                        );
+                      }
+                    )}
+                  </ul>
+                </Card>
+              ))}
           </div>
         </>
       )}

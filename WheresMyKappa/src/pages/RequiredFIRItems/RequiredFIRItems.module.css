@@ -1,0 +1,132 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  min-height: 100vh;
+}
+
+loadingScreen,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 2rem;
+}
+
+.tasksContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.questContainer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.questContainer h3 {
+  color: #f0b90b;
+  margin-bottom: 0.5rem;
+}
+
+.questContainer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.traderCard {
+  background-color: #1e1e1e;
+  width: 400px;
+  color: rgba(255, 255, 255, 0.87);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.traderHeader {
+  width: 100%;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  background: #282828;
+  font-size: 20px;
+}
+
+.cardHeader {
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  background: #282828;
+  font-size: 20px;
+}
+
+.itemName {
+  color: #fff;
+  flex: 1;
+  text-align: left;
+}
+
+.totalCount {
+  color: #ffc107;
+  padding: 5px 10px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.questList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.questRequirement {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 8px 8px 0px;
+  font-size: 15px;
+  margin-bottom: 5px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.itemCount {
+  color: #fff;
+  padding: 2px 8px;
+  min-width: 30px;
+  text-align: center;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdownFilter {
+  min-width: 200px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .traderCard {
+    width: 100%;
+    margin: 0.5rem;
+  }
+
+  .filterContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .dropdownFilter {
+    width: 100%;
+  }
+}

@@ -24,7 +24,7 @@ const App: React.FC = () => {
             <Link to="/hideoutupgrades" className={styles.navLink}>
               Hideout Upgrades
             </Link>
-            {/*<Link to="/requiredfirquestitems" className={styles.navLink}>
+            {/*<Link to="/RequiredFIRItems" className={styles.navLink}>
               Required FIR Items
             </Link>
             <Link to="/crafts" className={styles.navLink}>

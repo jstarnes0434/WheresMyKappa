@@ -1,12 +1,4 @@
 /* General Styling */
-body,
-html {
-  font-family: monospace !important;
-  font-family: monospace;
-  background-color: #1e1e1e;
-  color: #ffffff;
-  font-size: 100%;
-}
 
 /* Page Layout */
 .pageContainer {
@@ -21,7 +13,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
+  gap: 10px;
   width: 100%;
 }
 
