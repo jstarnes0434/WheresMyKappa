@@ -2,7 +2,6 @@
 
 /* Page Layout */
 .pageContainer {
-  margin-bottom: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,8 +18,17 @@
 
 .filterRow {
   display: flex;
-  gap: 5rem;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 1rem;
   margin-bottom: 20px;
+  justify-content: center; /* Centers the elements */
+}
+
+.filterColumn {
+  flex: 1; /* Allows elements to expand */
+  min-width: 200px; /* Prevents elements from getting too small */
+  display: flex;
+  justify-content: center;
 }
 
 /* Trader & Task Cards */

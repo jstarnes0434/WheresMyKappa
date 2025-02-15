@@ -1,9 +1,9 @@
 import React from "react";
-import background from "../../assets/EFTFooter2.jpg";
+import background from "../../assets/EFTFooter.jpg";
 import TarkovClock from "../TarkovTime"; // Import the TarkovClock component
-import styles from "./GraphicHeader.module.css";
+import styles from "./GraphicFooter.module.css";
 
-const GraphicHeader: React.FC = () => {
+const GraphicFooter: React.FC = () => {
   return (
     <div className={styles.container}>
       {/* Left Raid Time */}
@@ -24,4 +24,4 @@ const GraphicHeader: React.FC = () => {
   );
 };
 
-export default GraphicHeader;
+export default GraphicFooter;

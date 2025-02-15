@@ -1,6 +1,5 @@
 .pageContainer {
   font-family: monospace !important;
-  margin-bottom: 30rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -155,8 +154,6 @@ loadingScreen,
 @media (max-width: 600px) {
   .pageContainer {
     padding: 1.5rem;
-
-    margin-bottom: 30rem;
   }
 
   .panelClass {

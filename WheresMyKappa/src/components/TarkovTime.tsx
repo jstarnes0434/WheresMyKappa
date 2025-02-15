@@ -1,32 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface TarkovClockProps {
   raidSide: "left" | "right";
 }
 
 const TarkovClock: React.FC<TarkovClockProps> = ({ raidSide }) => {
-  const [tarkovTime, setTarkovTime] = useState(getTarkovTime(raidSide));
+  const [tarkovTime, setTarkovTime] = useState(() => getTarkovTime(raidSide));
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const updateClock = () => {
       setTarkovTime(getTarkovTime(raidSide));
-    }, 1000);
+      animationFrameRef.current = requestAnimationFrame(updateClock);
+    };
 
-    return () => clearInterval(interval);
+    animationFrameRef.current = requestAnimationFrame(updateClock);
+
+    return () => {
+      if (animationFrameRef.current)
+        cancelAnimationFrame(animationFrameRef.current);
+    };
   }, [raidSide]);
 
   function getTarkovTime(side: "left" | "right"): string {
-    const now = new Date();
-    const tarkovRatio = 7;
+    const now = Date.now(); // Current real-world time in milliseconds
+    const tarkovRatio = 7; // Tarkov time runs 7x faster
     const oneDayMs = 24 * 60 * 60 * 1000;
     const moscowOffsetMs = 3 * 60 * 60 * 1000;
     const sideOffsetMs = side === "left" ? 0 : 12 * 60 * 60 * 1000;
 
-    const realTimeMs = now.getTime();
+    // Calculate Tarkov time in milliseconds
     const tarkovTimeMs =
-      (realTimeMs * tarkovRatio + moscowOffsetMs + sideOffsetMs) % oneDayMs;
-
+      (now * tarkovRatio + moscowOffsetMs + sideOffsetMs) % oneDayMs;
     const tarkovDate = new Date(tarkovTimeMs);
+
     const hours = tarkovDate.getUTCHours().toString().padStart(2, "0");
     const minutes = tarkovDate.getUTCMinutes().toString().padStart(2, "0");
     const seconds = tarkovDate.getUTCSeconds().toString().padStart(2, "0");

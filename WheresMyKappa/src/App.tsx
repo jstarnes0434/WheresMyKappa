@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import GraphicHeader from "./components/graphicHeader/GraphicHeader";
 import styles from "./App.module.css"; // Import CSS module
 import AppRoutes from "./components/Routing/AppRoutes";
+import GraphicFooter from "./components/graphicFooter/GraphicFooter";
 
 const App: React.FC = () => {
   return (
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           </div>
         </div>
       </Router>
+      <GraphicFooter />
     </>
   );
 };
