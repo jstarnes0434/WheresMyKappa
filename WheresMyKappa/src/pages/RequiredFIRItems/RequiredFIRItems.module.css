@@ -98,6 +98,14 @@ loadingScreen,
   border-bottom: solid 1px lightgrey;
 }
 
+.itemCard {
+  min-width: 380px;
+  max-width: 380px;
+  max-height: 750px;
+  overflow:auto;
+
+}
+
 .itemCount {
   color: #fff;
   padding: 2px 8px;
@@ -114,6 +122,34 @@ loadingScreen,
   min-width: 200px;
 }
 
+.searchContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.searchInputs {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.dropdown,
+.searchInput {
+  flex: 1;
+  width: 70%;
+  height: 2.5rem !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchInputs {
+    flex-direction: column;
+  }
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
   .traderCard {
@@ -126,7 +162,12 @@ loadingScreen,
     width: 100%;
   }
 
+  .dropdown,
+  .searchInput {
+    height: 2.5rem !important;
+  }
+
   .dropdownFilter {
-    width: 100%;
+    width: 70%;
   }
 }

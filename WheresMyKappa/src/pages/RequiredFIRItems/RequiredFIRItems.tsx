@@ -1,98 +1,124 @@
 import React, { useEffect, useState } from "react";
 import styles from "./RequiredFIRItems.module.css";
-import { fetchCrafts, fetchHideoutUpgrades } from "../../services/Services";
-import { HideoutData } from "../../interfaces/hideoutupgrade";
+import {
+  fetchRequiredFIRQuestItems,
+  fetchHideoutUpgrades,
+} from "../../services/Services";
+import {
+  HideoutStation,
+  Level,
+  ItemRequirement,
+} from "../../interfaces/hideoutupgrade";
+
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
-import { CraftingData } from "../../interfaces/crafts";
+import { InputText } from "primereact/inputtext";
+import {
+  Objective,
+  RequiredFIRTask,
+} from "../../interfaces/requiredFIRQuestItem";
+
+interface AggregatedItem {
+  total: number;
+  hideoutTotal: number;
+  taskTotal: number;
+  tasks: { taskName: string; count: number }[];
+  hideout: { station: string; level: number; count: number }[];
+}
 
 const RequiredFIRItems: React.FC = () => {
-  const [hideoutUpgrades, setHideoutUpgrades] = useState<HideoutData>({
-    hideoutStations: [],
-  });
-  const [, setCrafts] = useState<CraftingData>({ crafts: [] });
+  const [aggregatedItems, setAggregatedItems] = useState<
+    Map<string, AggregatedItem>
+  >(new Map());
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   useEffect(() => {
-    const getHideoutData = async () => {
+    const aggregateItems = async () => {
       try {
-        const [fetchedHideoutUpgrades, fetchedCrafts] = await Promise.all([
+        const [fetchedHideout, fetchedTasks] = await Promise.all([
           fetchHideoutUpgrades(),
-          fetchCrafts(),
+          fetchRequiredFIRQuestItems(),
         ]);
 
-        const craftSourceMap = new Map<string, string>();
-        fetchedCrafts.crafts.forEach((craft) => {
-          craft.rewardItems.forEach((reward) => {
-            craftSourceMap.set(reward.item.name, craft.source);
+        const itemMap = new Map<string, AggregatedItem>();
+
+        fetchedHideout.hideoutStations.forEach((station: HideoutStation) => {
+          station.levels.forEach((level: Level) => {
+            level.itemRequirements.forEach((req: ItemRequirement) => {
+              const itemName = req.item.name;
+              if (!itemMap.has(itemName)) {
+                itemMap.set(itemName, {
+                  total: 0,
+                  hideoutTotal: 0,
+                  taskTotal: 0,
+                  tasks: [],
+                  hideout: [],
+                });
+              }
+              itemMap.get(itemName)!.total += req.count;
+              itemMap.get(itemName)!.hideoutTotal += req.count;
+              itemMap.get(itemName)!.hideout.push({
+                station: station.name,
+                level: level.level,
+                count: req.count,
+              });
+            });
           });
         });
 
-        const updatedHideoutUpgrades: HideoutData = {
-          hideoutStations: fetchedHideoutUpgrades.hideoutStations.map(
-            (station) => ({
-              ...station,
-              levels: station.levels.map((level) => ({
-                ...level,
-                itemRequirements: level.itemRequirements.map((req) => ({
-                  ...req,
-                  item: {
-                    ...req.item,
-                    source: craftSourceMap.get(req.item.name) || "",
-                  },
-                })),
-              })),
-            })
-          ),
-        };
+        fetchedTasks.forEach((task: RequiredFIRTask) => {
+          task.objectives.forEach((obj: Objective) => {
+            if (obj.foundInRaid && obj.item) {
+              const itemName = obj.item.name;
+              if (!itemMap.has(itemName)) {
+                itemMap.set(itemName, {
+                  total: 0,
+                  hideoutTotal: 0,
+                  taskTotal: 0,
+                  tasks: [],
+                  hideout: [],
+                });
+              }
+              itemMap.get(itemName)!.total += obj.count || 1;
+              itemMap.get(itemName)!.taskTotal += obj.count || 1;
+              itemMap.get(itemName)!.tasks.push({
+                taskName: task.name,
+                count: obj.count || 1,
+              });
+            }
+          });
+        });
 
-        setHideoutUpgrades(updatedHideoutUpgrades);
-        setCrafts(fetchedCrafts);
+        setAggregatedItems(itemMap);
       } catch (err) {
-        setError("Failed to fetch items");
+        setError("Failed to fetch data");
       } finally {
         setLoading(false);
       }
     };
 
-    getHideoutData();
+    aggregateItems();
   }, []);
 
-  const itemMap = new Map<
-    string,
-    {
-      stations: { name: string; level: number; count: number }[];
-      total: number;
+  const filteredItems = [...aggregatedItems.entries()].filter(
+    ([itemName, data]) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        (!selectedItem || itemName === selectedItem) &&
+        (itemName.toLowerCase().includes(query) ||
+          data.tasks.some((task) =>
+            task.taskName.toLowerCase().includes(query)
+          ) ||
+          data.hideout.some((hideout) =>
+            hideout.station.toLowerCase().includes(query)
+          ))
+      );
     }
-  >();
-
-  hideoutUpgrades.hideoutStations.forEach((station) => {
-    station.levels.forEach((level) => {
-      level.itemRequirements.forEach((req) => {
-        const itemName = req.item.name;
-        const itemCount = req.count;
-
-        if (!itemMap.has(itemName)) {
-          itemMap.set(itemName, { stations: [], total: 0 });
-        }
-
-        itemMap.get(itemName)!.stations.push({
-          name: station.name,
-          level: level.level,
-          count: itemCount,
-        });
-
-        itemMap.get(itemName)!.total += itemCount;
-      });
-    });
-  });
-
-  const allItems = Array.from(itemMap.keys())
-    .sort()
-    .map((name) => ({ label: name, value: name }));
+  );
 
   return (
     <div className={styles.pageContainer}>
@@ -104,48 +130,73 @@ const RequiredFIRItems: React.FC = () => {
         <div className={styles.error}>{error}</div>
       ) : (
         <>
-          <div className={styles.filterContainer}>
-            <Dropdown
-              value={selectedItem}
-              options={allItems}
-              onChange={(e) => setSelectedItem(e.value)}
-              placeholder="Filter by Required Item"
-              className={styles.dropdownFilter}
-              showClear
-              filter
-            />
+          <div className={styles.searchContainer}>
+            <div className={styles.searchInputs}>
+              <Dropdown
+                value={selectedItem}
+                options={[...aggregatedItems.keys()].map((item) => ({
+                  label: item,
+                  value: item,
+                }))}
+                onChange={(e) => setSelectedItem(e.value)}
+                placeholder="Select an item"
+                className={styles.dropdownFilter}
+              />
+              <InputText
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search items, tasks, or stations"
+                className={styles.searchInput}
+              />
+            </div>
           </div>
-
           <div className={styles.tasksContainer}>
-            {[...itemMap.entries()].map(([itemName, { stations, total }]) => (
-              <Card
-                key={itemName}
-                title={
-                  <div className={styles.traderHeader}>
-                    <span className={styles.itemName}>{itemName}</span>
-                    <span className={styles.totalCount}>{total}</span>
-                  </div>
-                }
-                className={styles.traderCard}
-              >
-                <div className={styles.questContainer}>
-                  <h3>Quest</h3>
-                  <ul className={styles.questList}>
-                    {stations.map((station) => (
-                      <li
-                        key={`${station.name}-${station.level}`}
-                        className={styles.questRequirement}
-                      >
-                        <span className={styles.questName}>
-                          {station.name} (Level {station.level})
-                        </span>
-                        <span className={styles.itemCount}>
-                          {station.count}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+            {filteredItems.map(([itemName, data]) => (
+              <Card key={itemName} className={styles.itemCard}>
+                <div className={styles.cardHeader}>
+                  <span className={styles.itemName}>{itemName}</span>
+                  <span className={styles.totalCount}>{data.total}</span>
                 </div>
+                {data.hideout.length > 0 && (
+                  <div className={styles.questContainer}>
+                    <h3 className={styles.sectionHeader}>Hideout</h3>
+                    <ul className={styles.questList}>
+                      {data.hideout.map((entry, index) => (
+                        <li key={index} className={styles.questRequirement}>
+                          <span className={styles.questName}>
+                            {entry.station} (Level {entry.level})
+                          </span>
+                          <span className={styles.itemCount}>
+                            {entry.count}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className={styles.sectionTotal}>
+                      Total from Hideout: {data.hideoutTotal}
+                    </div>
+                  </div>
+                )}
+                {data.tasks.length > 0 && (
+                  <div className={styles.questContainer}>
+                    <h3 className={styles.sectionHeader}>Tasks</h3>
+                    <ul className={styles.questList}>
+                      {data.tasks.map((entry, index) => (
+                        <li key={index} className={styles.questRequirement}>
+                          <span className={styles.questName}>
+                            {entry.taskName}
+                          </span>
+                          <span className={styles.itemCount}>
+                            {entry.count}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className={styles.sectionTotal}>
+                      Total from Tasks: {data.taskTotal}
+                    </div>
+                  </div>
+                )}
               </Card>
             ))}
           </div>
