@@ -1,5 +1,5 @@
 import React from "react";
-import background from "../../assets/EFTFooter.jpg";
+import background from "../../assets/EFTFooter.jpeg";
 import TarkovClock from "../TarkovTime"; // Import the TarkovClock component
 import styles from "./GraphicFooter.module.css";
 
