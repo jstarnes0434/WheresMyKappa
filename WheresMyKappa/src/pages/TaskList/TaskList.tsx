@@ -12,10 +12,13 @@ const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(() => {
-    const savedCheckedTasks = localStorage.getItem("checkedTasks");
-    return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
-  });
+  const [selectedTask, setSelectedTask] = useState<string | null>(null);
+  const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
+    () => {
+      const savedCheckedTasks = localStorage.getItem("checkedTasks");
+      return savedCheckedTasks ? JSON.parse(savedCheckedTasks) : {};
+    }
+  );
   const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(() => {
     // Initialize from localStorage or default to true
     const savedShowCheckedTasks = localStorage.getItem("showCheckedTasks");
@@ -55,7 +58,8 @@ const TasksList: React.FC = () => {
   const filteredTasks = tasks.filter((task) => {
     return (
       task.kappaRequired &&
-      (selectedMap ? task.map?.name === selectedMap : true) // Check for null map
+      (selectedMap ? task.map?.name === selectedMap : true) &&
+      (selectedTask ? task.id === selectedTask : true) // Task selection filter
     );
   });
 
@@ -113,15 +117,31 @@ const TasksList: React.FC = () => {
 
         {/* Dropdown to filter tasks by task map */}
         <div className={styles.filterRow}>
+          {/* Map Selection Dropdown */}
           <div>
             <Dropdown
               value={selectedMap}
-              options={uniqueMaps.map((map) => ({ label: map, value: map }))} // Filtered map options
+              options={uniqueMaps.map((map) => ({ label: map, value: map }))}
               onChange={(e) => setSelectedMap(e.value)}
               placeholder="Select a Map"
               showClear
             />
           </div>
+
+          {/* Task Selection Dropdown */}
+          <div>
+            <Dropdown
+              value={selectedTask}
+              options={tasks
+                .map((task) => ({ label: task.name, value: task.id }))
+                .sort((a, b) => a.label.localeCompare(b.label))} // Sorting alphabetically
+              onChange={(e) => setSelectedTask(e.value)}
+              placeholder="Select a Task"
+              showClear
+            />
+          </div>
+
+          {/* Toggle Completed Tasks */}
           <div className={styles.toggleContainer}>
             <ToggleButton
               checked={!showCheckedTasks}
@@ -133,32 +153,32 @@ const TasksList: React.FC = () => {
         </div>
 
         <div className={styles.tasksContainer}>
-          {Object.keys(tasksToDisplay).map((traderName) => (
-            <Card
-              key={traderName}
-              title={
-                <div className={styles.traderHeader}>
-                  <img
-                    src={tasksToDisplay[traderName][0].trader.imageLink}
-                    alt={traderName}
-                    className={styles.traderImage}
-                  />
-                  <div>{traderName}</div>
-                </div>
-              }
-              className={styles.traderCard}
-            >
-              <div>
-                {tasksToDisplay[traderName].map((task) => (
-                  <Card
-                    key={task.id}
-                    className={`${styles.taskCard} ${
-                      checkedTasks[task.id] ? styles.checkedTask : ""
-                    }`}
-                    onClick={() => onTaskClick(task.id)}
-                  >
-                    <div className={styles.taskCardHeader}>
-                      <div>
+          {Object.keys(tasksToDisplay).length > 0 ? (
+            Object.keys(tasksToDisplay).map((traderName) => (
+              <Card
+                key={traderName}
+                title={
+                  <div className={styles.traderHeader}>
+                    <img
+                      src={tasksToDisplay[traderName][0].trader.imageLink}
+                      alt={traderName}
+                      className={styles.traderImage}
+                    />
+                    <div>{traderName}</div>
+                  </div>
+                }
+                className={styles.traderCard}
+              >
+                <div>
+                  {tasksToDisplay[traderName].map((task) => (
+                    <Card
+                      key={task.id}
+                      className={`${styles.taskCard} ${
+                        checkedTasks[task.id] ? styles.checkedTask : ""
+                      }`}
+                      onClick={() => onTaskClick(task.id)}
+                    >
+                      <div className={styles.taskCardHeader}>
                         <div>
                           <a
                             href={task.wikiLink}
@@ -201,22 +221,24 @@ const TasksList: React.FC = () => {
                           )}
                         </div>
                       </div>
-                    </div>
 
-                    <div className={styles.taskObjectives}>
-                      <div className={styles.taskSubHeader}>
-                        Task Objectives:
+                      <div className={styles.taskObjectives}>
+                        <div className={styles.taskSubHeader}>
+                          Task Objectives:
+                        </div>
+                        {task.objectives?.map((objective, index) => (
+                          <li key={index}>{objective.description}</li>
+                        ))}
+                        <br />
                       </div>
-                      {task.objectives?.map((objective, index) => (
-                        <li key={index}>{objective.description}</li>
-                      ))}
-                      <br />
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </Card>
-          ))}
+                    </Card>
+                  ))}
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div className={styles.noTasksFound}>No Tasks Found</div> // Display when no tasks match
+          )}
         </div>
       </div>
     </>

@@ -16,6 +16,16 @@
   width: 100%;
 }
 
+.noTasksFound {
+  height: 20rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b6b; /* Red color to make it noticeable */
+  margin-top: 12rem;
+  font-family: monospace;
+}
+
 .filterRow {
   display: flex;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
@@ -178,6 +188,17 @@
   .taskName {
     font-size: 13px;
   }
+
+  .noTasksFound {
+    height: 5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6b6b; /* Red color to make it noticeable */
+    margin-top: 2rem;
+    font-family: monospace;
+  }
+
   .mapName {
     display: none;
   }

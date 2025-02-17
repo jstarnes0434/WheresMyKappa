@@ -1,6 +1,6 @@
 import React from "react";
 import background from "../../assets/EFTFooter.jpeg";
-import TarkovClock from "../TarkovTime"; // Import the TarkovClock component
+import TarkovClock from "../TarkovTime/TarkovTime"; // Import the TarkovClock component
 import styles from "./GraphicFooter.module.css";
 
 const GraphicFooter: React.FC = () => {
