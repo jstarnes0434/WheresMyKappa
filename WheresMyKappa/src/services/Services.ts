@@ -9,7 +9,7 @@ import axios from "axios";
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
 
-const FUNCTION_URL = `http://func-wheresmykappa.azurewebsites.net/api/Function1?code=9gAfchGDDkDbOv-SXUQ77jT5v3fNVCqjBKDPbfhVMiUTAzFuxy34MA%3D%3D`;
+const FUNCTION_URL = `https://func-wheresmykappa.azurewebsites.net/api/Function1?code=9gAfchGDDkDbOv-SXUQ77jT5v3fNVCqjBKDPbfhVMiUTAzFuxy34MA%3D%3D`;
 
 export const fetchFunctionData = async () => {
   try {
