@@ -11,7 +11,7 @@ import ProgressTracker from "../../components/ProgressTracker/progresstracker";
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
     () => {
@@ -101,10 +101,6 @@ const TasksList: React.FC = () => {
         <ProgressSpinner />
       </div>
     );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
   }
 
   return (

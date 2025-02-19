@@ -4,9 +4,23 @@ import { ItemData } from "../interfaces/items";
 import { CraftingData } from "../interfaces/crafts";
 import { HideoutData } from "../interfaces/hideoutupgrade";
 import { RequiredFIRTaskData } from "../interfaces/requiredFIRQuestItem";
+import axios from "axios";
 
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
+
+const FUNCTION_URL = `http://func-wheresmykappa.azurewebsites.net/api/Function1?code=9gAfchGDDkDbOv-SXUQ77jT5v3fNVCqjBKDPbfhVMiUTAzFuxy34MA%3D%3D`;
+
+export const fetchFunctionData = async () => {
+  try {
+    const response = await axios.get(FUNCTION_URL);
+    console.log("Azure Function Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error calling Azure Function:", error);
+    throw error;
+  }
+};
 
 const GET_CRAFTS_QUERY = `
    query {crafts {
