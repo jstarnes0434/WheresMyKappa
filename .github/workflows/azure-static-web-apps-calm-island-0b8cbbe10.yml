@@ -37,11 +37,11 @@ jobs:
           result-encoding: string
 
       - name: Install dependencies
-        working-directory: ./WheresMyKappa/WheresMyKappa
+        working-directory: ./WheresMyKappa
         run: npm ci
 
       - name: Build the app
-        working-directory: ./WheresMyKappa/WheresMyKappa
+        working-directory: ./WheresMyKappa
         run: npm run build
         env:
           VITE_FUNCTION_KEY: ${{ secrets.VITE_FUNCTION_KEY }}
