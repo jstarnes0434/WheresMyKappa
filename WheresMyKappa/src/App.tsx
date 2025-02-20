@@ -4,13 +4,11 @@ import styles from "./App.module.css"; // Import CSS module
 import AppRoutes from "./components/Routing/AppRoutes";
 import GraphicFooter from "./components/graphicFooter/GraphicFooter";
 import Navbar from "./components/navbar/navbar";
-import Topbar from "./components/Topbar/Topbar";
-
 
 const App: React.FC = () => {
   return (
     <>
-      <Topbar />
+      {/* <Topbar /> */}
       <GraphicHeader />
       <div className={styles.container}>
         <Navbar />
