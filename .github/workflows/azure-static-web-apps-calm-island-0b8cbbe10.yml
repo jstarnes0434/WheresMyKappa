@@ -25,6 +25,7 @@ jobs:
           
       - name: Install Dependencies
         run: npm install
+        working-directory: WheresMyKappa
 
       - name: Set up Environment Variables
         run: |
@@ -32,6 +33,7 @@ jobs:
 
       - name: Build Project
         run: npm run build
+        working-directory: WheresMyKappa
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
