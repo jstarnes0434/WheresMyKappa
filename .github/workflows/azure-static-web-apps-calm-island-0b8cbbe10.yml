@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: Deploy Vite React App to Azure
 
 on:
   push:
@@ -10,60 +10,34 @@ on:
       - main
 
 jobs:
-  build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+  deploy:
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    permissions:
-      id-token: write
-      contents: read
-    environment: dev  # Specify the environment to access secrets
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          submodules: true
-          lfs: false
+          node-version: 18
+          cache: 'npm'
 
-      - name: Install OIDC Client from Core Package
-        run: npm install @actions/core@1.6.0 @actions/http-client
+      - name: Install Dependencies
+        run: npm install
 
-      - name: Get Id Token
-        uses: actions/github-script@v6
-        id: idtoken
-        with:
-          script: |
-            const coredemo = require('@actions/core');
-            return await coredemo.getIDToken();
-          result-encoding: string
+      - name: Set up Environment Variables
+        run: |
+          echo "FUNCTION_APP_KEY=${{ secrets.VITE_FUNCTION_KEY }}" >> .env
 
-      - name: Install dependencies
-        working-directory: ./WheresMyKappa
-        run: npm ci
-
-      - name: Build the app
-        working-directory: ./WheresMyKappa
+      - name: Build Project
         run: npm run build
-        env:
-          VITE_FUNCTION_KEY: ${{ secrets.VITE_FUNCTION_KEY }}
 
-      - name: Build And Deploy
-        id: builddeploy
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_ISLAND_0B8CBBE10 }}
           action: "upload"
-          app_location: "./WheresMyKappa"
-          api_location: ""
-          output_location: "dist"
-          github_id_token: ${{ steps.idtoken.outputs.result }}
+          app_location: "dist"
+          output_location: ""
 
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          action: "close"
