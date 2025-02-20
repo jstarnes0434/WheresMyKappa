@@ -32,8 +32,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const core = require('@actions/core');
-            return await core.getIDToken();
+            return await require('@actions/core').getIDToken();
           result-encoding: string
 
       - name: Install dependencies
