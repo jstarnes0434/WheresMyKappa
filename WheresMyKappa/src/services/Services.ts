@@ -9,15 +9,26 @@ import axios from "axios";
 // Define the GraphQL endpoint and query
 const GRAPHQL_URL = "https://api.tarkov.dev/graphql"; // replace with the actual endpoint
 
-const FUNCTION_URL = `https://func-wheresmykappa.azurewebsites.net/api/Function1?code=9gAfchGDDkDbOv-SXUQ77jT5v3fNVCqjBKDPbfhVMiUTAzFuxy34MA%3D%3D`;
+const FUNCTION_URL = `https://func-wheresmykappa.azurewebsites.net/api/SubmitFeedback?code=${
+  import.meta.env.VITE_FUNCTION_KEY
+}`;
 
-export const fetchFunctionData = async () => {
+export const postFeedbackData = async (
+  feedbackType: string,
+  pageName: string,
+  feedback: string
+) => {
   try {
-    const response = await axios.get(FUNCTION_URL);
-    console.log("Azure Function Response:", response.data);
+    const response = await axios.post(FUNCTION_URL, {
+      FeedbackText: feedbackType, // Match CosmosDB schema
+      FeedbackType: feedback, // Match CosmosDB schema
+      FeedbackArea: pageName, // Add PageName to store which page feedback was from
+    });
+
+    console.log("Feedback Submitted:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error calling Azure Function:", error);
+    console.error("Error submitting feedback:", error);
     throw error;
   }
 };
