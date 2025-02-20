@@ -1,0 +1,21 @@
+.topbarcontainer {
+  width: 100%;
+  background-color: none;
+  text-align: right;
+  width: 80%;
+  margin: auto;
+}
+
+.feedbackButton {
+  background: none !important;
+  border: none !important;
+  color: white;
+  font-family: monospace;
+}
+
+.feedbackButton :active :hover {
+  background: none !important;
+  border: none !important;
+  color: white;
+  font-family: monospace;
+}

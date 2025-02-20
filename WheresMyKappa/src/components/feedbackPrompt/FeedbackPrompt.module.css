@@ -1,0 +1,54 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: rgb(31, 31, 31);
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modalButtons :global .p-button {
+  background-color: #f0b90b;
+  border: black;
+}
+
+.dropdownContainer :global .p-dropdown .p-dropdown-label {
+  width: 300px;
+}
+
+.inputtextContainer :global .p-inputtext {
+  width: 80%;
+}
+
+.dropdownContainer {
+  margin-bottom: 1rem;
+}
+
+.successIcon {
+  font-size: 5rem;
+  color: #246a26; /* Green thumbs-up color */
+  margin-bottom: 40px;
+}
+
+.successMessage {
+  font-size: 2.2rem;
+  color: #616161;
+}

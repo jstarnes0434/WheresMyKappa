@@ -16,12 +16,9 @@ const Navbar: React.FC = () => {
       <Link to="/hideoutupgrades" className={styles.navLink}>
         Hideout Upgrades
       </Link>
-     <Link to="/RequiredFIRItems" className={styles.navLink}>
-      Required FIR Items
-    </Link>
-    {/* <Link to="/crafts" className={styles.navLink}>
-      Crafts
-    </Link>  */}
+      <Link to="/RequiredFIRItems" className={styles.navLink}>
+        Required FIR Items
+      </Link>
     </nav>
   );
 };
