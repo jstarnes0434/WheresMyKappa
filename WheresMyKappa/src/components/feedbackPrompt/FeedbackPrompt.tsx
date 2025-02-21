@@ -27,11 +27,16 @@ const FeedbackPrompt: React.FC<FeedbackPromptProps> = ({
   const feedbackTypes = [
     { label: "Feedback", value: "Feedback" },
     { label: "Bug", value: "Bug" },
+    { label: "Suggestion", value: "Suggestion" }
   ];
 
   const pageNames = [
     { label: "Tasks", value: "Tasks" },
     { label: "Collector", value: "Collector" },
+    { label: "Cultist Calculator", value: "CultistCalculator" },
+    { label: "Hideout Upgrades", value: "HideoutUpgrades" },
+    { label: "Required FIR Items", value: "RequiredFIRItems" },
+    { label: "General", value: "General" },
   ];
 
   const handleSubmit = async () => {
