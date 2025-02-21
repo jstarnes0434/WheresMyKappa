@@ -34,7 +34,7 @@ jobs:
           result-encoding: string
       - name: Set up Environment Variables
         run: |
-          echo "VITE_FUNCTION_KEY=${{ secrets.VITE_FUNCTION_KEY }}" >> .env   
+          echo "VITE_AZURE_FUNCTION_KEY=${{ secrets['Azure Static Web Apps CI/CD'] }}" >> .env   
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
