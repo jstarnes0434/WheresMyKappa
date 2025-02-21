@@ -16,9 +16,17 @@ const Topbar: React.FC = () => {
         <Button className={styles.feedbackButton} onClick={toggleModal}>
           Feedback
         </Button>
+        <Button
+          className={styles.feedbackButton}
+          onClick={() =>
+            window.open("https://buymeacoffee.com/jstarnes0434", "_blank")
+          }
+        >
+          Donate
+        </Button>
       </div>
 
-      <FeedbackPrompt visible={showModal} onClose={toggleModal}  />
+      <FeedbackPrompt visible={showModal} onClose={toggleModal} />
     </>
   );
 };

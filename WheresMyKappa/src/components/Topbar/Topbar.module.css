@@ -19,3 +19,17 @@
   color: white;
   font-family: monospace;
 }
+
+.donateLink {
+  background: none !important;
+  border: none !important;
+  color: white;
+  font-family: monospace;
+}
+
+.donateLink :active :hover {
+  background: none !important;
+  border: none !important;
+  color: white;
+  font-family: monospace;
+}
