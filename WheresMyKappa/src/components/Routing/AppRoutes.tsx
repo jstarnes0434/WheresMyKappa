@@ -7,6 +7,7 @@ import CultistCalculator from "../../pages/CultistCalculator/CultistCalculator";
 import HideoutUpgrades from "../../pages/HideoutUpgrades/HideoutUpgrades";
 import RequiredFIRItemsPage from "../../pages/RequiredFIRItems/RequiredFIRItems";
 import TestPage from "../../pages/TestPage/TestPage";
+import LightKeeper from "../../pages/lightkeeper/Lightkeeper";
 
 
 const AppRoutes: React.FC = () => {
@@ -19,6 +20,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/hideoutUpgrades" element={<HideoutUpgrades />} />
       <Route path="/requiredFIRItems" element={<RequiredFIRItemsPage />} />
       <Route path="/testpage" element={<TestPage />} />
+      <Route path="/lightkeeper" element={<LightKeeper />} />
     </Routes>
   );
 };

@@ -10,6 +10,7 @@ export interface Objective {
 
 export interface Task {
   id: string;
+  lightkeeperRequired: boolean;
   name: string;
   taskImageLink: string;
   taskRequirements: RequiredTask[];

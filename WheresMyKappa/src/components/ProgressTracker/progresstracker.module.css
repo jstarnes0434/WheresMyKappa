@@ -35,6 +35,7 @@
 @media (max-width: 768px) {
   .progressContainer {
     padding: 1rem;
+    padding-top: 0rem;
   }
 
   .progressTitle {

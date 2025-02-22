@@ -5,7 +5,7 @@ import styles from "./GraphicHeader.module.css";
 const GraphicHeader: React.FC = () => {
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.fullScreenContainer}>
         <div className={styles.clockLeft}>
           <TarkovClock raidSide="left" />
         </div>

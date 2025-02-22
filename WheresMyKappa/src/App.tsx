@@ -10,14 +10,16 @@ const App: React.FC = () => {
   return (
     <>
       <Topbar />
-      <GraphicHeader />
+
       <div className={styles.container}>
         <Navbar />
+        <div className={styles.showHeader}>
+          <GraphicHeader />
+        </div>
         <div className={styles.content}>
           <AppRoutes /> {/* Use the extracted routes component */}
         </div>
       </div>
-
       <GraphicFooter />
     </>
   );

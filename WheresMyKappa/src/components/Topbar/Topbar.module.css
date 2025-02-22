@@ -33,3 +33,9 @@
   color: white;
   font-family: monospace;
 }
+
+@media (max-width: 768px) {
+  .topbarcontainer {
+    display: none;
+  }
+}

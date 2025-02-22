@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../../services/Services"; // Import the service
+import { fetchLightKeeperTasks, fetchTasks } from "../../services/Services"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import { Dropdown } from "primereact/dropdown"; // PrimeReact Dropdown component
 import { ProgressSpinner } from "primereact/progressspinner";
 import { ToggleButton } from "primereact/togglebutton"; // PrimeReact ToggleButton component
-import styles from "./TaskList.module.css"; // Import the CSS module
+import styles from "./Lightkeeper.module.css"; // Import the CSS module
 import { Task } from "../../interfaces/task";
 import ProgressTracker from "../../components/ProgressTracker/progresstracker";
-import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 
-const TasksList: React.FC = () => {
+const LightKeeper: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [, setError] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
-  const [hideTaskRequirements, setHideTaskRequirements] =
-    useState<boolean>(false);
-
   const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
     () => {
       const savedCheckedTasks = localStorage.getItem("checkedTasks");
@@ -33,7 +29,7 @@ const TasksList: React.FC = () => {
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const fetchedTasks = await fetchTasks();
+        const fetchedTasks = await fetchLightKeeperTasks();
         setTasks(fetchedTasks);
       } catch (err) {
         setError("Failed to fetch tasks");
@@ -61,14 +57,14 @@ const TasksList: React.FC = () => {
   // Filter tasks based on the selected map
   const filteredTasks = tasks.filter((task) => {
     return (
-      task.kappaRequired &&
+      task.lightkeeperRequired &&
       (selectedMap ? task.map?.name === selectedMap : true) &&
       (selectedTask ? task.id === selectedTask : true) // Task selection filter
     );
   });
 
   const countFilteredTasks = tasks.filter((task) => {
-    return task.kappaRequired;
+    return task.lightkeeperRequired;
   });
 
   const groupedTasks = filteredTasks.reduce((groups, task) => {
@@ -117,7 +113,7 @@ const TasksList: React.FC = () => {
 
         {/* Dropdown to filter tasks by task map */}
         <div className={styles.filterRow}>
-          {/* Existing filters */}
+          {/* Map Selection Dropdown */}
           <div>
             <Dropdown
               value={selectedMap}
@@ -128,12 +124,13 @@ const TasksList: React.FC = () => {
             />
           </div>
 
+          {/* Task Selection Dropdown */}
           <div>
             <Dropdown
               value={selectedTask}
               options={tasks
                 .map((task) => ({ label: task.name, value: task.id }))
-                .sort((a, b) => a.label.localeCompare(b.label))}
+                .sort((a, b) => a.label.localeCompare(b.label))} // Sorting alphabetically
               onChange={(e) => setSelectedTask(e.value)}
               placeholder="Select a Task"
               showClear
@@ -147,14 +144,6 @@ const TasksList: React.FC = () => {
               onChange={() => setShowCheckedTasks((prev) => !prev)}
               onLabel="Show Completed Quests"
               offLabel="Hide Completed Quests"
-            />
-          </div>
-          <div className={styles.toggleContainerTaskDetails}>
-            <ToggleButton
-              checked={hideTaskRequirements}
-              onChange={() => setHideTaskRequirements((prev) => !prev)}
-              onLabel="Hide Task Details"
-              offLabel="Show Task Details"
             />
           </div>
         </div>
@@ -193,16 +182,10 @@ const TasksList: React.FC = () => {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <div>
-                              <span className={styles.taskName}>
-                                {task.name}
-                              </span>
-                            </div>
-                            <div>
-                              <span className={styles.minPlayerLevel}>
-                                Level {task.minPlayerLevel}
-                              </span>
-                            </div>
+                            <span className={styles.taskName}>{task.name}</span>
+                            <span className={styles.minPlayerLevel}>
+                              - Level {task.minPlayerLevel}
+                            </span>
                           </a>
                         </div>
                         <div className={styles.mapName}>
@@ -215,7 +198,7 @@ const TasksList: React.FC = () => {
                           />
                         </div>
                         <div className={styles.taskRequirements}>
-                          {!hideTaskRequirements && task.taskRequirements && (
+                          {task.taskRequirements && (
                             <>
                               <div className={styles.taskSubHeader}>
                                 Requirements:
@@ -234,16 +217,16 @@ const TasksList: React.FC = () => {
                           )}
                         </div>
                       </div>
-                      {!hideTaskRequirements && task.taskRequirements && (
-                        <div className={styles.taskObjectives}>
-                          <div className={styles.taskSubHeader}>
-                            Task Objectives:
-                          </div>
-                          {task.objectives?.map((objective, index) => (
-                            <li key={index}>{objective.description}</li>
-                          ))}
+
+                      <div className={styles.taskObjectives}>
+                        <div className={styles.taskSubHeader}>
+                          Task Objectives:
                         </div>
-                      )}
+                        {task.objectives?.map((objective, index) => (
+                          <li key={index}>{objective.description}</li>
+                        ))}
+                        <br />
+                      </div>
                     </Card>
                   ))}
                 </div>
@@ -258,4 +241,4 @@ const TasksList: React.FC = () => {
   );
 };
 
-export default TasksList;
+export default LightKeeper;

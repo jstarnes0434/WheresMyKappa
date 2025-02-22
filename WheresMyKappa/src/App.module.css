@@ -1,57 +1,80 @@
 /* General Styles */
 .container {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+/* Navigation Links */
+.navLink {
+  font-family: monospace;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 0 20px;
+  padding: 8px 12px;
+  transition: background 0.3s ease;
+}
+
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  width: 100%;
+}
+
+.showMobileHeader {
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 10px 0;
+    padding-bottom: 0;
   }
-  
-  /* Navigation Bar */
-  .navbar {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+
+  .content {
+    padding-top: 0;
+    flex: 1;
     width: 100%;
-    top: 0;
-    z-index: 100;
+    flex: 1;
+    width: 100%;
   }
-  
-  /* Navigation Links */
+
+  .showMobileHeader {
+    display: block; /* Make it visible on small screens */
+    color: white;
+    font-size: 40px;
+    font-family: monospace;
+    text-align: center;
+  }
+
+  .showHeader {
+    display: block;
+  }
+
   .navLink {
     font-family: monospace;
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    margin: 0 20px;
-    padding: 8px 12px;
-    transition: background 0.3s ease;
+    display: block;
+    margin: 5px 0;
+    font-size: 16px;
   }
-  
-  .navLink:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Page Content */
-  .content {
-    flex: 1;
-    padding: 20px;
-    width: 100%;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 0;
-    }
-  
-    .navLink {
-      font-family: monospace;
-      display: block;
-      margin: 5px 0;
-      font-size: 16px;
-    }
-  }
-  
+}

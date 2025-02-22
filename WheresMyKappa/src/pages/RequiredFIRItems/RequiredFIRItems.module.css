@@ -8,6 +8,7 @@
 
 loadingScreen,
 .error {
+  height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,8 +103,7 @@ loadingScreen,
   min-width: 380px;
   max-width: 380px;
   max-height: 750px;
-  overflow:auto;
-
+  overflow: auto;
 }
 
 .itemCount {
