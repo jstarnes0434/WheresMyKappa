@@ -7,7 +7,6 @@ import { ToggleButton } from "primereact/togglebutton"; // PrimeReact ToggleButt
 import styles from "./TaskList.module.css"; // Import the CSS module
 import { Task } from "../../interfaces/task";
 import ProgressTracker from "../../components/ProgressTracker/progresstracker";
-import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 
 const TasksList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

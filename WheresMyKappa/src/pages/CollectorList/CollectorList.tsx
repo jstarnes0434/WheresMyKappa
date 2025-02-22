@@ -4,7 +4,6 @@ import styles from "./CollectorList.module.css";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Item } from "../../interfaces/items";
 import { fetchItems } from "../../services/Services";
-import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 
 const CollectorList: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchLightKeeperTasks, fetchTasks } from "../../services/Services"; // Import the service
+import { fetchLightKeeperTasks } from "../../services/Services"; // Import the service
 import { Card } from "primereact/card"; // PrimeReact Card component
 import { Dropdown } from "primereact/dropdown"; // PrimeReact Dropdown component
 import { ProgressSpinner } from "primereact/progressspinner";
