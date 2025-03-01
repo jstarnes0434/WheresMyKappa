@@ -118,39 +118,12 @@ query {
   }
 }`;
 
-const GET_LIGHTKEEPER_TASKS = `
-query {
-  tasks {
-    wikiLink
-    minPlayerLevel
-    id
-    lightkeeperRequired
-    taskImageLink
-    taskRequirements {task {
-      id, name
-    }}
-    name
-    objectives {
-      description 
-      maps { name }
-    }
-    kappaRequired
-    map {
-      name
-    }
-    trader {
-      name
-      imageLink
-    }
-  }
-}
-  `;
-
 const GET_TASKS_QUERY = `
  query {
   tasks {
     wikiLink
     minPlayerLevel
+    lightkeeperRequired
     id
     taskImageLink
     taskRequirements {task {
@@ -342,21 +315,6 @@ export const fetchTasks = async () => {
     const data: TaskData = await request(GRAPHQL_URL, GET_TASKS_QUERY);
 
     return data.tasks; // return tasks data from the response
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    throw error; // Rethrow the error to be handled by the calling component
-  }
-};
-
-// Function to fetch tasks from the API
-export const fetchLightKeeperTasks = async () => {
-  try {
-    const data: TaskData = await request(GRAPHQL_URL, GET_LIGHTKEEPER_TASKS);
-    console.log(data.tasks);
-    const filteredTasks = data.tasks.filter((task) => task.lightkeeperRequired === true);
-    console.log(filteredTasks);
-    return filteredTasks; // return tasks data from the response
-
   } catch (error) {
     console.error("Error fetching tasks:", error);
     throw error; // Rethrow the error to be handled by the calling component

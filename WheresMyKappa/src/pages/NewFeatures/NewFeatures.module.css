@@ -1,0 +1,81 @@
+/* General Styling */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Page Title */
+.pageTitle {
+  color: #f0b90b;
+  font-size: 2rem;
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+/* Loading Screen */
+.loadingScreen {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Features Container */
+.featuresContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+/* Feature Card */
+.featureCard {
+  background-color: #1e1e1e;
+  overflow: hidden;
+  width: 30%;
+}
+
+/* Feature Header */
+.featureHeader {
+  padding-bottom: 0;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  color: #f0b90b;
+}
+
+/* Feature Item */
+.featureItem {
+  padding-left: 5%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featureName {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.featureDescription {
+  font-size: 0.9rem;
+  color: #b3b3b3;
+}
+
+/* No Features Message */
+.noFeatures {
+  font-size: 1.2rem;
+  color: #b3b3b3;
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .featureCard {
+    width: 100%;
+  }
+}

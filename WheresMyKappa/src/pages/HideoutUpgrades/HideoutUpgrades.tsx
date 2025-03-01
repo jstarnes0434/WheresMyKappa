@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import styles from "./HideoutUpgrades.module.css"; // Import CSS module
+import styles from "./HideoutUpgrades.module.css";
 import { fetchCrafts, fetchHideoutUpgrades } from "../../services/Services";
 import { HideoutData } from "../../interfaces/hideoutupgrade";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import { Dropdown } from "primereact/dropdown";
 import { CraftingData } from "../../interfaces/crafts";
+import { Button } from "primereact/button";
 
 const HideoutUpgrades: React.FC = () => {
   const [hideoutUpgrades, setHideoutUpgrades] = useState<HideoutData>({
@@ -18,6 +19,7 @@ const HideoutUpgrades: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [selectedStation, setSelectedStation] = useState<string | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [hiddenLevels, setHiddenLevels] = useState<Set<string>>(new Set());
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -46,16 +48,13 @@ const HideoutUpgrades: React.FC = () => {
           fetchCrafts(),
         ]);
 
-        // Create a lookup map for crafting sources
         const craftSourceMap = new Map<string, string>();
-
         fetchedCrafts.crafts.forEach((craft) => {
           craft.rewardItems.forEach((reward) => {
             craftSourceMap.set(reward.item.name, craft.source);
           });
         });
 
-        // Update hideoutUpgrades with source for required items
         const updatedHideoutUpgrades: HideoutData = {
           hideoutStations: fetchedHideoutUpgrades.hideoutStations.map(
             (station) => ({
@@ -85,6 +84,42 @@ const HideoutUpgrades: React.FC = () => {
 
     getHideoutData();
   }, []);
+
+  const toggleLevelVisibility = (stationId: string, levelNumber: number) => {
+    setHiddenLevels((prev) => {
+      const newSet = new Set(prev);
+      const station = hideoutUpgrades.hideoutStations.find(
+        (s) => s.id === stationId
+      );
+      if (station) {
+        const targetLevel = station.levels.find((l) => l.level === levelNumber);
+        if (targetLevel) {
+          if (newSet.has(targetLevel.id)) {
+            // If showing this level, only show it (don't affect lower levels)
+            newSet.delete(targetLevel.id);
+          } else {
+            // If hiding this level, hide it and all lower levels
+            station.levels.forEach((level) => {
+              if (level.level <= levelNumber) {
+                newSet.add(level.id);
+              }
+            });
+          }
+        }
+      }
+      return newSet;
+    });
+  };
+
+  const showAllLevels = (stationId: string) => {
+    setHiddenLevels((prev) => {
+      const newSet = new Set(prev);
+      hideoutUpgrades.hideoutStations
+        .find((station) => station.id === stationId)
+        ?.levels.forEach((level) => newSet.delete(level.id));
+      return newSet;
+    });
+  };
 
   const allItems = Array.from(
     new Set(
@@ -125,11 +160,10 @@ const HideoutUpgrades: React.FC = () => {
             ))
       ),
     }))
-    .filter((station) => station.levels.length > 0); // Remove empty stations
+    .filter((station) => station.levels.length > 0);
 
   const getAggregatedItemRequirements = () => {
     const itemTotals: { [key: string]: number } = {};
-
     hideoutUpgrades.hideoutStations.forEach((station) => {
       station.levels.forEach((level) => {
         level.itemRequirements.forEach((req) => {
@@ -138,7 +172,6 @@ const HideoutUpgrades: React.FC = () => {
         });
       });
     });
-
     return itemTotals;
   };
 
@@ -152,7 +185,6 @@ const HideoutUpgrades: React.FC = () => {
         <div className={styles.error}>{error}</div>
       ) : (
         <>
-          
           <div className={styles.filterContainer}>
             <Dropdown
               value={selectedStation}
@@ -182,111 +214,151 @@ const HideoutUpgrades: React.FC = () => {
             />
           </div>
           <div className={styles.tasksContainer}>
-            {/* New Card for Aggregated Items */}
-
-            {/* Existing Hideout Station Cards */}
-            {filteredHideouts.map((hideout) => (
-              <Card
-                key={hideout.id}
-                title={
-                  <div className={styles.traderHeader}>
-                    <img
-                      src={hideout.imageLink}
-                      alt={hideout.name}
-                      className={styles.traderImage}
-                    />
-                    <div>{hideout.name}</div>
-                  </div>
-                }
-                className={styles.traderCard}
-              >
-                {hideout.levels.map((level) => (
-                  <div key={level.id} className={styles.levelContainer}>
-                    <h3>Level {level.level}</h3>
-                    <p>{level.description}</p>
-                    <p>
-                      Construction Time: {formatTime(level.constructionTime)}
-                    </p>
-                    <h4>Requirements:</h4>
-                    <ul className={styles.requirementsList}>
-                      {level.itemRequirements.map((req) => (
-                        <li key={req.id} className={styles.itemRequirement}>
-                          <span className={styles.itemText}>
-                            {req.count}x {req.item.name}
-                          </span>
-                          <span className={styles.icon}>
-                            <i
-                              className={
-                                req.item.craftsFor.length > 0
-                                  ? ""
-                                  : "pi pi-times"
-                              }
-                              style={{
-                                color:
-                                  req.item.craftsFor.length > 0 ? "" : "red",
-                              }}
-                            ></i>
-                            <span style={{ color: "green" }}>
-                              {" "}
-                              {req.item.source}
-                            </span>
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </Card>
-            ))}
-            {!selectedItem ||
-              !selectedLevel ||
-              (!selectedStation && (
+            {filteredHideouts.map((hideout) => {
+              const hasHiddenLevels = hideout.levels.some((level) =>
+                hiddenLevels.has(level.id)
+              );
+              return (
                 <Card
-                  key="aggregated-items"
+                  key={hideout.id}
                   title={
                     <div className={styles.traderHeader}>
-                      <i
-                        className="pi pi-wrench"
-                        style={{ fontSize: "3rem" }}
-                      ></i>
-                      <div>Total Item Requirements</div>
+                      <img
+                        src={hideout.imageLink}
+                        alt={hideout.name}
+                        className={styles.traderImage}
+                      />
+                      <div>{hideout.name}</div>
+                      {hasHiddenLevels && (
+                        <Button
+                          icon="pi pi-eye"
+                          className="p-button-text p-button-sm"
+                          onClick={() => showAllLevels(hideout.id)}
+                          tooltip="Show All Hidden Levels"
+                          tooltipOptions={{ position: "top" }}
+                        />
+                      )}
                     </div>
                   }
                   className={styles.traderCard}
                 >
-                  <ul className={styles.requirementsList}>
-                    {Object.entries(getAggregatedItemRequirements()).map(
-                      ([itemName, totalCount]) => {
-                        const item = hideoutUpgrades.hideoutStations
-                          .flatMap((station) =>
-                            station.levels.flatMap(
-                              (level) => level.itemRequirements
-                            )
-                          )
-                          .find((req) => req.item.name === itemName)?.item;
-
-                        const isCraftable = item
-                          ? item.craftsFor.length > 0
-                          : false;
-
-                        return (
-                          <li key={itemName} className={styles.itemRequirement}>
-                            <span className={styles.itemText}>
-                              {totalCount}x {itemName}
-                            </span>
-                            <span className={styles.icon}>
-                              <i
-                                className={isCraftable ? "" : "pi pi-times"}
-                                style={{ color: isCraftable ? "" : "red" }}
-                              ></i>
-                            </span>
-                          </li>
-                        );
-                      }
-                    )}
-                  </ul>
+                  {hideout.levels.map((level) => (
+                    <div
+                      key={level.id}
+                      className={`${styles.levelContainer} ${
+                        hiddenLevels.has(level.id) ? styles.hidden : ""
+                      }`}
+                    >
+                      <h3>
+                        Level {level.level}
+                        <Button
+                          icon={
+                            hiddenLevels.has(level.id)
+                              ? "pi pi-eye"
+                              : "pi pi-eye-slash"
+                          }
+                          className="p-button-text p-button-sm"
+                          onClick={() =>
+                            toggleLevelVisibility(hideout.id, level.level)
+                          }
+                          tooltip={hiddenLevels.has(level.id) ? "Show" : "Hide"}
+                          tooltipOptions={{ position: "top" }}
+                          style={{ float: "right" }}
+                        />
+                      </h3>
+                      {!hiddenLevels.has(level.id) && (
+                        <>
+                          <p>{level.description}</p>
+                          <p>
+                            Construction Time:{" "}
+                            {formatTime(level.constructionTime)}
+                          </p>
+                          <h4>Requirements:</h4>
+                          <ul className={styles.requirementsList}>
+                            {level.itemRequirements.map((req) => (
+                              <li
+                                key={req.id}
+                                className={styles.itemRequirement}
+                              >
+                                <span className={styles.itemText}>
+                                  {req.count}x {req.item.name}
+                                </span>
+                                <span className={styles.icon}>
+                                  <i
+                                    className={
+                                      req.item.craftsFor.length > 0
+                                        ? ""
+                                        : "pi pi-times"
+                                    }
+                                    style={{
+                                      color:
+                                        req.item.craftsFor.length > 0
+                                          ? ""
+                                          : "red",
+                                    }}
+                                  ></i>
+                                  <span style={{ color: "green" }}>
+                                    {" "}
+                                    {req.item.source}
+                                  </span>
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 </Card>
-              ))}
+              );
+            })}
+            {!selectedItem && !selectedLevel && !selectedStation && (
+              <Card
+                key="aggregated-items"
+                title={
+                  <div className={styles.traderHeader}>
+                    <i
+                      className="pi pi-wrench"
+                      style={{ fontSize: "3rem" }}
+                    ></i>
+                    <div>Total Item Requirements</div>
+                  </div>
+                }
+                className={styles.traderCard}
+              >
+                <ul className={styles.requirementsList}>
+                  {Object.entries(getAggregatedItemRequirements()).map(
+                    ([itemName, totalCount]) => {
+                      const item = hideoutUpgrades.hideoutStations
+                        .flatMap((station) =>
+                          station.levels.flatMap(
+                            (level) => level.itemRequirements
+                          )
+                        )
+                        .find((req) => req.item.name === itemName)?.item;
+
+                      const isCraftable = item
+                        ? item.craftsFor.length > 0
+                        : false;
+
+                      return (
+                        <li key={itemName} className={styles.itemRequirement}>
+                          <span className={styles.itemText}>
+                            {totalCount}x {itemName}
+                          </span>
+                          <span className={styles.icon}>
+                            <i
+                              className={isCraftable ? "" : "pi pi-times"}
+                              style={{ color: isCraftable ? "" : "red" }}
+                            ></i>
+                          </span>
+                        </li>
+                      );
+                    }
+                  )}
+                </ul>
+              </Card>
+            )}
           </div>
         </>
       )}

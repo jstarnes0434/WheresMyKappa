@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchTasks } from "../../services/Services"; // Import the service
-import { Card } from "primereact/card"; // PrimeReact Card component
-import { Dropdown } from "primereact/dropdown"; // PrimeReact Dropdown component
+import { fetchTasks } from "../../services/Services";
+import { Card } from "primereact/card";
+import { Dropdown } from "primereact/dropdown";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { ToggleButton } from "primereact/togglebutton"; // PrimeReact ToggleButton component
-import styles from "./TaskList.module.css"; // Import the CSS module
+import { ToggleButton } from "primereact/togglebutton";
+import styles from "./TaskList.module.css";
 import { Task } from "../../interfaces/task";
 import ProgressTracker from "../../components/ProgressTracker/progresstracker";
 
@@ -15,7 +15,6 @@ const TasksList: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [hideTaskRequirements, setHideTaskRequirements] =
     useState<boolean>(false);
-
   const [checkedTasks, setCheckedTasks] = useState<{ [key: string]: boolean }>(
     () => {
       const savedCheckedTasks = localStorage.getItem("checkedTasks");
@@ -23,11 +22,10 @@ const TasksList: React.FC = () => {
     }
   );
   const [showCheckedTasks, setShowCheckedTasks] = useState<boolean>(() => {
-    // Initialize from localStorage or default to true
     const savedShowCheckedTasks = localStorage.getItem("showCheckedTasks");
     return savedShowCheckedTasks ? JSON.parse(savedShowCheckedTasks) : true;
   });
-  const [selectedMap, setSelectedMap] = useState<string | null>(null); // Selected map for filtering
+  const [selectedMap, setSelectedMap] = useState<string | null>(null);
 
   useEffect(() => {
     const getTasks = async () => {
@@ -44,31 +42,53 @@ const TasksList: React.FC = () => {
     getTasks();
   }, []);
 
+  const checkRequiredTasks = (
+    taskId: string,
+    updatedCheckedTasks: { [key: string]: boolean }
+  ) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (task && task.taskRequirements) {
+      task.taskRequirements.forEach((req) => {
+        if (req.task && !updatedCheckedTasks[req.task.id]) {
+          updatedCheckedTasks[req.task.id] = true;
+          checkRequiredTasks(req.task.id, updatedCheckedTasks); // Recursively check requirements
+        }
+      });
+    }
+  };
+
   const onTaskClick = (taskId: string) => {
     setCheckedTasks((prev) => {
-      const updatedCheckedTasks = { ...prev, [taskId]: !prev[taskId] };
+      const isCurrentlyChecked = !!prev[taskId];
+      const updatedCheckedTasks = { ...prev };
+
+      if (!isCurrentlyChecked) {
+        // If unchecking to checking, check this task and its requirements
+        updatedCheckedTasks[taskId] = true;
+        checkRequiredTasks(taskId, updatedCheckedTasks);
+      } else {
+        // If checking to unchecking, only uncheck this task (leave requirements alone)
+        updatedCheckedTasks[taskId] = false;
+      }
+
       localStorage.setItem("checkedTasks", JSON.stringify(updatedCheckedTasks));
       return updatedCheckedTasks;
     });
   };
 
-  // Extract unique task map names for dropdown, accounting for null maps
   const uniqueMaps = Array.from(
     new Set(tasks.map((task) => task.map?.name).filter((mapName) => mapName))
   );
 
-  // Filter tasks based on the selected map
   const filteredTasks = tasks.filter((task) => {
     return (
       task.kappaRequired &&
       (selectedMap ? task.map?.name === selectedMap : true) &&
-      (selectedTask ? task.id === selectedTask : true) // Task selection filter
+      (selectedTask ? task.id === selectedTask : true)
     );
   });
 
-  const countFilteredTasks = tasks.filter((task) => {
-    return task.kappaRequired;
-  });
+  const countFilteredTasks = tasks.filter((task) => task.kappaRequired);
 
   const groupedTasks = filteredTasks.reduce((groups, task) => {
     const traderName = task.trader.name;
@@ -79,7 +99,6 @@ const TasksList: React.FC = () => {
     return groups;
   }, {} as { [key: string]: Task[] });
 
-  // Show or hide checked tasks based on the switch
   const tasksToDisplay = Object.keys(groupedTasks).reduce(
     (result, traderName) => {
       const traderTasks = groupedTasks[traderName].filter(
@@ -93,7 +112,6 @@ const TasksList: React.FC = () => {
     {} as { [key: string]: Task[] }
   );
 
-  // Save the showCheckedTasks value in localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("showCheckedTasks", JSON.stringify(showCheckedTasks));
   }, [showCheckedTasks]);
@@ -107,153 +125,140 @@ const TasksList: React.FC = () => {
   }
 
   return (
-    <>
-      <div className={styles.pageContainer}>
-        <ProgressTracker
-          totalTasks={countFilteredTasks.length}
-          checkedTasks={checkedTasks}
-        />
-
-        {/* Dropdown to filter tasks by task map */}
-        <div className={styles.filterRow}>
-          {/* Existing filters */}
-          <div>
-            <Dropdown
-              value={selectedMap}
-              options={uniqueMaps.map((map) => ({ label: map, value: map }))}
-              onChange={(e) => setSelectedMap(e.value)}
-              placeholder="Select a Map"
-              showClear
-            />
-          </div>
-
-          <div>
-            <Dropdown
-              value={selectedTask}
-              options={tasks
-                .map((task) => ({ label: task.name, value: task.id }))
-                .sort((a, b) => a.label.localeCompare(b.label))}
-              onChange={(e) => setSelectedTask(e.value)}
-              placeholder="Select a Task"
-              showClear
-            />
-          </div>
-
-          {/* Toggle Completed Tasks */}
-          <div className={styles.toggleContainer}>
-            <ToggleButton
-              checked={!showCheckedTasks}
-              onChange={() => setShowCheckedTasks((prev) => !prev)}
-              onLabel="Show Completed Quests"
-              offLabel="Hide Completed Quests"
-            />
-          </div>
-          <div className={styles.toggleContainerTaskDetails}>
-            <ToggleButton
-              checked={hideTaskRequirements}
-              onChange={() => setHideTaskRequirements((prev) => !prev)}
-              onLabel="Hide Task Details"
-              offLabel="Show Task Details"
-            />
-          </div>
+    <div className={styles.pageContainer}>
+      <ProgressTracker
+        title="Kappa Task Completion"
+        totalTasks={countFilteredTasks.length}
+        checkedTasks={checkedTasks}
+      />
+      <div className={styles.filterRow}>
+        <div>
+          <Dropdown
+            value={selectedMap}
+            options={uniqueMaps.map((map) => ({ label: map, value: map }))}
+            onChange={(e) => setSelectedMap(e.value)}
+            placeholder="Select a Map"
+            showClear
+          />
         </div>
-
-        <div className={styles.tasksContainer}>
-          {Object.keys(tasksToDisplay).length > 0 ? (
-            Object.keys(tasksToDisplay).map((traderName) => (
-              <Card
-                key={traderName}
-                title={
-                  <div className={styles.traderHeader}>
-                    <img
-                      src={tasksToDisplay[traderName][0].trader.imageLink}
-                      alt={traderName}
-                      className={styles.traderImage}
-                    />
-                    <div>{traderName}</div>
-                  </div>
-                }
-                className={styles.traderCard}
-              >
-                <div>
-                  {tasksToDisplay[traderName].map((task) => (
-                    <Card
-                      key={task.id}
-                      className={`${styles.taskCard} ${
-                        checkedTasks[task.id] ? styles.checkedTask : ""
-                      }`}
-                      onClick={() => onTaskClick(task.id)}
-                    >
-                      <div className={styles.taskCardHeader}>
-                        <div>
-                          <a
-                            href={task.wikiLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div>
-                              <span className={styles.taskName}>
-                                {task.name}
-                              </span>
-                            </div>
-                            <div>
-                              <span className={styles.minPlayerLevel}>
-                                Level {task.minPlayerLevel}
-                              </span>
-                            </div>
-                          </a>
-                        </div>
-                        <div className={styles.mapName}>
-                          {task.map?.name && <div>{task.map?.name}</div>}
-                        </div>
-                        <div>
-                          <img
-                            src={task.taskImageLink}
-                            className={styles.taskImage}
-                          />
-                        </div>
-                        <div className={styles.taskRequirements}>
-                          {!hideTaskRequirements && task.taskRequirements && (
-                            <>
-                              <div className={styles.taskSubHeader}>
-                                Requirements:
-                              </div>
-                              <ul>
-                                {task.taskRequirements.map(
-                                  (requirement, index) =>
-                                    requirement.task ? (
-                                      <li key={index}>
-                                        {requirement.task.name}
-                                      </li>
-                                    ) : null
-                                )}
-                              </ul>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      {!hideTaskRequirements && task.taskRequirements && (
-                        <div className={styles.taskObjectives}>
-                          <div className={styles.taskSubHeader}>
-                            Task Objectives:
-                          </div>
-                          {task.objectives?.map((objective, index) => (
-                            <li key={index}>{objective.description}</li>
-                          ))}
-                        </div>
-                      )}
-                    </Card>
-                  ))}
-                </div>
-              </Card>
-            ))
-          ) : (
-            <div className={styles.noTasksFound}>No Tasks Found</div> // Display when no tasks match
-          )}
+        <div>
+          <Dropdown
+            value={selectedTask}
+            options={tasks
+              .map((task) => ({ label: task.name, value: task.id }))
+              .sort((a, b) => a.label.localeCompare(b.label))}
+            onChange={(e) => setSelectedTask(e.value)}
+            placeholder="Select a Task"
+            showClear
+          />
+        </div>
+        <div className={styles.toggleContainer}>
+          <ToggleButton
+            checked={!showCheckedTasks}
+            onChange={() => setShowCheckedTasks((prev) => !prev)}
+            onLabel="Show Completed Quests"
+            offLabel="Hide Completed Quests"
+          />
+        </div>
+        <div className={styles.toggleContainerTaskDetails}>
+          <ToggleButton
+            checked={hideTaskRequirements}
+            onChange={() => setHideTaskRequirements((prev) => !prev)}
+            onLabel="Hide Task Details"
+            offLabel="Show Task Details"
+          />
         </div>
       </div>
-    </>
+      <div className={styles.tasksContainer}>
+        {Object.keys(tasksToDisplay).length > 0 ? (
+          Object.keys(tasksToDisplay).map((traderName) => (
+            <Card
+              key={traderName}
+              title={
+                <div className={styles.traderHeader}>
+                  <img
+                    src={tasksToDisplay[traderName][0].trader.imageLink}
+                    alt={traderName}
+                    className={styles.traderImage}
+                  />
+                  <div>{traderName}</div>
+                </div>
+              }
+              className={styles.traderCard}
+            >
+              <div>
+                {tasksToDisplay[traderName].map((task) => (
+                  <Card
+                    key={task.id}
+                    className={`${styles.taskCard} ${
+                      checkedTasks[task.id] ? styles.checkedTask : ""
+                    }`}
+                    onClick={() => onTaskClick(task.id)}
+                  >
+                    <div className={styles.taskCardHeader}>
+                      <div>
+                        <a
+                          href={task.wikiLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div>
+                            <span className={styles.taskName}>{task.name}</span>
+                          </div>
+                          <div>
+                            <span className={styles.minPlayerLevel}>
+                              Level {task.minPlayerLevel}
+                            </span>
+                          </div>
+                        </a>
+                      </div>
+                      <div className={styles.mapName}>
+                        {task.map?.name && <div>{task.map?.name}</div>}
+                      </div>
+                      <div>
+                        <img
+                          src={task.taskImageLink}
+                          className={styles.taskImage}
+                        />
+                      </div>
+                      <div className={styles.taskRequirements}>
+                        {!hideTaskRequirements && task.taskRequirements && (
+                          <>
+                            <div className={styles.taskSubHeader}>
+                              Requirements:
+                            </div>
+                            <ul>
+                              {task.taskRequirements.map((requirement, index) =>
+                                requirement.task ? (
+                                  <li key={index}>{requirement.task.name}</li>
+                                ) : null
+                              )}
+                            </ul>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    {!hideTaskRequirements && task.taskRequirements && (
+                      <div className={styles.taskObjectives}>
+                        <div className={styles.taskSubHeader}>
+                          Task Objectives:
+                        </div>
+                        {task.objectives?.map((objective, index) => (
+                          <li key={index}>{objective.description}</li>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </Card>
+          ))
+        ) : (
+          <div className={styles.noTasksFound}>No Tasks Found</div>
+        )}
+      </div>
+    </div>
   );
 };
 

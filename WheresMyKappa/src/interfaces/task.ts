@@ -14,13 +14,14 @@ export interface Task {
   name: string;
   taskImageLink: string;
   taskRequirements: RequiredTask[];
-  minPlayerLevel: number; 
+  minPlayerLevel: number;
   wikiLink: string;
-  objectives: Objective[]; // Correct type for objectives array
+  objectives: Objective[];
   kappaRequired: boolean;
   descriptionMessageId: string | null;
   trader: Trader;
   map: Map;
+  children?: Task[]; // Add this line
 }
 
 export interface RequiredTask {

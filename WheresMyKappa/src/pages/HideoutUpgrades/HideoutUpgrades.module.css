@@ -57,17 +57,25 @@
 .traderHeader div {
   font-size: 1.2rem;
   font-weight: bold;
+  flex-grow: 1; /* Makes the title take available space */
 }
 
-/* Level Details */
+/* Level Section */
 .levelContainer {
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.levelContainer.hidden {
+  display: none; /* Hides the container completely when hidden */
 }
 
 .levelContainer h3 {
   color: #f0b90b;
   margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .levelContainer p {
@@ -111,6 +119,7 @@
   min-width: 30px; /* Ensures proper spacing */
 }
 
+/* Filter Section */
 .filterContainer :global .p-dropdown {
   margin: 5px !important;
   width: 270px !important;
@@ -118,4 +127,13 @@
 
 input {
   height: 3rem !important;
+}
+
+/* Optional: Style adjustments for the PrimeReact buttons */
+:global(.p-button-text) {
+  color: #f0b90b; /* Matches your header color scheme */
+}
+
+:global(.p-button-text:hover) {
+  color: #ffd700; /* Slightly lighter on hover */
 }

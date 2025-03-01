@@ -4,11 +4,13 @@ import styles from "../ProgressTracker/progresstracker.module.css";
 interface ProgressTrackerProps {
   totalTasks: number;
   checkedTasks: { [key: string]: boolean };
+  title: string;
 }
 
 const ProgressTracker: React.FC<ProgressTrackerProps> = ({
   totalTasks,
   checkedTasks,
+  title,
 }) => {
   const [progress, setProgress] = useState(0);
 
@@ -22,9 +24,12 @@ const ProgressTracker: React.FC<ProgressTrackerProps> = ({
 
   return (
     <div className={styles.progressContainer}>
-      <h3 className={styles.progressTitle}>Task Completion: {progress}%</h3>
       <h3 className={styles.progressTitle}>
-        {Object.values(checkedTasks).filter(Boolean).length} / {totalTasks} Tasks Completed
+        {title}: {progress}%
+      </h3>
+      <h3 className={styles.progressTitle}>
+        {Object.values(checkedTasks).filter(Boolean).length} / {totalTasks}{" "}
+        Tasks Completed
       </h3>
     </div>
   );

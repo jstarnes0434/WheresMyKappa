@@ -10,7 +10,6 @@ const App: React.FC = () => {
   return (
     <>
       <Topbar />
-
       <div className={styles.container}>
         <Navbar />
         <div className={styles.showHeader}>

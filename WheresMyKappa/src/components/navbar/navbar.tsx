@@ -46,11 +46,11 @@ const Navbar: React.FC = () => {
           className={`${styles.navLinks} ${isOpen ? styles.showMenu : ""}`}
         >
           <Link
-            to="/"
+            to="/kappatasks"
             className={styles.navLink}
             onClick={() => setOpen(false)}
           >
-            Tasks
+            Kappa Tasks
           </Link>
           <Link
             to="/collector"
@@ -80,6 +80,13 @@ const Navbar: React.FC = () => {
           >
             Required FIR Items
           </Link>
+          <Link
+            to="/lightkeepertasks"
+            className={styles.navLink}
+            onClick={() => setOpen(false)}
+          >
+            Lightkeeper Tasks
+          </Link>
 
           {/* Mobile Links for Feedback & Donate at the bottom of the menu */}
           <div className={styles.mobileBottomLinks}>
@@ -92,6 +99,12 @@ const Navbar: React.FC = () => {
               className={styles.navLink}
             >
               Donate
+            </Link>
+            <Link
+              to="/newfeatures" // Internal route to NewFeatures page
+              className={styles.navLink}
+            >
+              New Features
             </Link>
           </div>
         </div>

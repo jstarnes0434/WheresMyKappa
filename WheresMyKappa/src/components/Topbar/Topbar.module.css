@@ -34,6 +34,41 @@
   font-family: monospace;
 }
 
+/* Existing styles remain unchanged */
+
+/* Existing styles remain unchanged */
+
+.newFeaturesHighlight {
+  color: yellow; /* Set text color to yellow */
+  animation: blink 2s infinite; /* Slow blink animation (2 seconds per cycle) */
+  background-color: transparent; /* Optional: Remove background if you only want text blinking */
+}
+/* Existing styles remain unchanged */
+
+.newFeaturesBlink {
+  color: yellow; /* Yellow text */
+  animation: blink 2s infinite; /* Slow blink animation */
+  background-color: transparent; /* Optional: No background */
+}
+
+.newFeaturesStatic {
+  color: white; /* Yellow text */
+  background-color: transparent; /* Optional: No background */
+}
+
+/* Define the blink animation */
+@keyframes blink {
+  0% {
+    opacity: 1; /* Fully visible */
+  }
+  50% {
+    opacity: 0.3; /* Partially faded */
+  }
+  100% {
+    opacity: 1; /* Back to fully visible */
+  }
+}
+
 @media (max-width: 768px) {
   .topbarcontainer {
     display: none;
