@@ -63,11 +63,9 @@ const LightKeeper: React.FC = () => {
       const updatedCheckedTasks = { ...prev };
 
       if (!isCurrentlyChecked) {
-        // If unchecking to checking, check this task and its requirements
         updatedCheckedTasks[taskId] = true;
         checkRequiredTasks(taskId, updatedCheckedTasks);
       } else {
-        // If checking to unchecking, only uncheck this task (leave requirements alone)
         updatedCheckedTasks[taskId] = false;
       }
 
@@ -112,6 +110,14 @@ const LightKeeper: React.FC = () => {
     {} as { [key: string]: Task[] }
   );
 
+  // Filter checkedTasks to only include Lightkeeper-required tasks
+  const lightkeeperCheckedTasks = Object.fromEntries(
+    Object.entries(checkedTasks).filter(([taskId]) => {
+      const task = tasks.find((t) => t.id === taskId);
+      return task?.lightkeeperRequired;
+    })
+  );
+
   useEffect(() => {
     localStorage.setItem("showCheckedTasks", JSON.stringify(showCheckedTasks));
   }, [showCheckedTasks]);
@@ -129,7 +135,7 @@ const LightKeeper: React.FC = () => {
       <ProgressTracker
         title="Lightkeeper Task Completion"
         totalTasks={countFilteredTasks.length}
-        checkedTasks={checkedTasks}
+        checkedTasks={lightkeeperCheckedTasks} // Pass filtered checkedTasks
       />
       <div className={styles.filterRow}>
         <div>
