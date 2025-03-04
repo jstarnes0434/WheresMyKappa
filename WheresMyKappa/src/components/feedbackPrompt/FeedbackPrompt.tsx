@@ -27,7 +27,7 @@ const FeedbackPrompt: React.FC<FeedbackPromptProps> = ({
   const feedbackTypes = [
     { label: "Feedback", value: "Feedback" },
     { label: "Bug", value: "Bug" },
-    { label: "Suggestion", value: "Suggestion" }
+    { label: "Request", value: "Request" },
   ];
 
   const pageNames = [
