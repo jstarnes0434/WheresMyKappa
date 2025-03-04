@@ -52,7 +52,7 @@ const Topbar: React.FC = () => {
     <>
       <div className={styles.topbarcontainer}>
         <Button className={styles.feedbackButton} onClick={toggleModal}>
-          Feedback
+          Requests/Feedback
         </Button>
         <Button
           className={styles.feedbackButton}
