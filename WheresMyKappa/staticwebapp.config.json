@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "route": "/ads.txt",
+      "serve": "/ads.txt",
+      "statusCode": 200
+    }
+  ],
+  "mimeTypes": {
+    ".txt": "text/plain"
+  }
+}
