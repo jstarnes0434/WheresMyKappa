@@ -148,7 +148,7 @@ const GET_TASKS_QUERY = `
 
 const GET_ITEMS_QUERY = `
  query {
-   items {
+  items {
     id
     name
     wikiLink
@@ -158,10 +158,21 @@ const GET_ITEMS_QUERY = `
     shortName
     description
     category {
-      name parent { name }
+      name
+      parent {
+        name
+      }
     }
     weight
+    sellFor {
+      vendor {
+        name
+      }
+      currency
+      price
+    }
   }
+
 }
 `;
 

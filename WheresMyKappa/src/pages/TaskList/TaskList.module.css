@@ -44,9 +44,9 @@
 /* Trader & Task Cards */
 .traderCard,
 .taskCard {
-  font-size: 18px;
+  font-size: 14px;
   max-width: 350px;
-  padding: 0.7rem;
+  padding: 0.3rem;
 }
 
 .traderCard {
@@ -54,6 +54,7 @@
 }
 
 .taskCard {
+  border-radius: 20px;
   font-family: monospace !important;
   background-color: #343434;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
@@ -62,7 +63,7 @@
 }
 
 .taskCard:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   background-color: #444;
 }
 
