@@ -51,7 +51,7 @@ const TasksList: React.FC = () => {
       task.taskRequirements.forEach((req) => {
         if (req.task && !updatedCheckedTasks[req.task.id]) {
           updatedCheckedTasks[req.task.id] = true;
-          checkRequiredTasks(req.task.id, updatedCheckedTasks); // Recursively check requirements
+          checkRequiredTasks(req.task.id, updatedCheckedTasks);
         }
       });
     }
@@ -63,11 +63,9 @@ const TasksList: React.FC = () => {
       const updatedCheckedTasks = { ...prev };
 
       if (!isCurrentlyChecked) {
-        // If unchecking to checking, check this task and its requirements
         updatedCheckedTasks[taskId] = true;
         checkRequiredTasks(taskId, updatedCheckedTasks);
       } else {
-        // If checking to unchecking, only uncheck this task (leave requirements alone)
         updatedCheckedTasks[taskId] = false;
       }
 
@@ -191,8 +189,8 @@ const TasksList: React.FC = () => {
                   <Card
                     key={task.id}
                     className={`${styles.taskCard} ${
-                      checkedTasks[task.id] ? styles.checkedTask : ""
-                    }`}
+                      hideTaskRequirements ? styles.minimalTaskCard : ""
+                    } ${checkedTasks[task.id] ? styles.checkedTask : ""}`}
                     onClick={() => onTaskClick(task.id)}
                   >
                     <div className={styles.taskCardHeader}>
@@ -203,51 +201,62 @@ const TasksList: React.FC = () => {
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <div>
+                          <div
+                            className={
+                              hideTaskRequirements ? styles.minimalTaskName : ""
+                            }
+                          >
                             <span className={styles.taskName}>{task.name}</span>
                           </div>
-                          <div>
-                            <span className={styles.minPlayerLevel}>
-                              Level {task.minPlayerLevel}
-                            </span>
-                          </div>
+                          {!hideTaskRequirements && task.taskRequirements && (
+                            <div>
+                              <span className={styles.minPlayerLevel}>
+                                Level {task.minPlayerLevel}
+                              </span>
+                            </div>
+                          )}
                         </a>
                       </div>
-                      <div className={styles.mapName}>
-                        {task.map?.name && <div>{task.map?.name}</div>}
-                      </div>
-                      <div>
-                        <img
-                          src={task.taskImageLink}
-                          className={styles.taskImage}
-                        />
-                      </div>
-                      <div className={styles.taskRequirements}>
-                        {!hideTaskRequirements && task.taskRequirements && (
-                          <>
-                            <div className={styles.taskSubHeader}>
-                              Requirements:
-                            </div>
-                            <ul>
-                              {task.taskRequirements.map((requirement, index) =>
-                                requirement.task ? (
-                                  <li key={index}>{requirement.task.name}</li>
-                                ) : null
-                              )}
-                            </ul>
-                          </>
-                        )}
-                      </div>
+                      {!hideTaskRequirements && task.taskRequirements && (
+                        <>
+                          <div className={styles.mapName}>
+                            {task.map?.name && <div>{task.map.name}</div>}
+                          </div>
+                          <div>
+                            <img
+                              src={task.taskImageLink}
+                              className={styles.taskImage}
+                              alt={task.name}
+                            />
+                          </div>
+                        </>
+                      )}
                     </div>
                     {!hideTaskRequirements && task.taskRequirements && (
-                      <div className={styles.taskObjectives}>
-                        <div className={styles.taskSubHeader}>
-                          Task Objectives:
+                      <>
+                        <div className={styles.taskRequirements}>
+                          <div className={styles.taskSubHeader}>
+                            Requirements:
+                          </div>
+                          <ul>
+                            {task.taskRequirements.map((requirement, index) =>
+                              requirement.task ? (
+                                <li key={index}>{requirement.task.name}</li>
+                              ) : null
+                            )}
+                          </ul>
                         </div>
-                        {task.objectives?.map((objective, index) => (
-                          <li key={index}>{objective.description}</li>
-                        ))}
-                      </div>
+                        <div className={styles.taskObjectives}>
+                          <div className={styles.taskSubHeader}>
+                            Task Objectives:
+                          </div>
+                          <ul>
+                            {task.objectives?.map((objective, index) => (
+                              <li key={index}>{objective.description}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
                     )}
                   </Card>
                 ))}

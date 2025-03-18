@@ -21,22 +21,22 @@
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff6b6b; /* Red color to make it noticeable */
+  color: #ff6b6b;
   margin-top: 12rem;
   font-family: monospace;
 }
 
 .filterRow {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 20px;
-  justify-content: center; /* Centers the elements */
+  justify-content: center;
 }
 
 .filterColumn {
-  flex: 1; /* Allows elements to expand */
-  min-width: 200px; /* Prevents elements from getting too small */
+  flex: 1;
+  min-width: 200px;
   display: flex;
   justify-content: center;
 }
@@ -65,6 +65,20 @@
 .taskCard:hover {
   transform: scale(1.05);
   background-color: #444;
+}
+
+.minimalTaskCard {
+  border-radius: 0;
+  padding: 0;
+  margin: 0.2rem 0;
+}
+
+.minimalTaskCard :global(.p-card .p-card-body) {
+  padding: 0rem;
+}
+
+.minimalTaskName {
+  padding: 0;
 }
 
 /* Trader Header */
@@ -203,7 +217,7 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #ff6b6b; /* Red color to make it noticeable */
+    color: #ff6b6b;
     margin-top: 2rem;
     font-family: monospace;
   }
@@ -224,6 +238,6 @@
   }
 
   .taskCard:hover {
-    transform: none; /* Prevents hover scaling on touch devices */
+    transform: none;
   }
 }
