@@ -160,6 +160,28 @@
   margin-bottom: 10px;
 }
 
+.resetButtonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.resetButton {
+  background-color: #ff6b6b;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.resetButton:hover {
+  background-color: #ff4c4c;
+  transform: scale(1.05);
+}
+
 /* Task Links */
 .taskCard a {
   color: #90caf9;

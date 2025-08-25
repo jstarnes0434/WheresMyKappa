@@ -64,6 +64,19 @@ const CollectorList: React.FC = () => {
         {items.length}
       </h2>
 
+      {/* Reset All Button */}
+      <div className={styles.resetButtonContainer}>
+        <button
+          className={styles.resetButton}
+          onClick={() => {
+            setCheckedItems({});
+            localStorage.setItem("checkedItems", JSON.stringify({}));
+          }}
+        >
+          Reset All
+        </button>
+      </div>
+
       <div className={styles.itemsContainer}>
         {items.map((item) => (
           <Card

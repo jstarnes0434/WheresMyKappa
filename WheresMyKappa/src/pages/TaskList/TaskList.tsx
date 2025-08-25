@@ -166,6 +166,19 @@ const TasksList: React.FC = () => {
             offLabel="Show Task Details"
           />
         </div>
+
+        {/* Reset All Button */}
+        <div className={styles.resetButtonContainer}>
+          <button
+            className={styles.resetButton}
+            onClick={() => {
+              setCheckedTasks({});
+              localStorage.setItem("checkedTasks", JSON.stringify({}));
+            }}
+          >
+            Reset All
+          </button>
+        </div>
       </div>
       <div className={styles.tasksContainer}>
         {Object.keys(tasksToDisplay).length > 0 ? (
